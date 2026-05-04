@@ -7,10 +7,14 @@ import Loading from './components/Loading';
 import Dashboard from './pages/main/Dashboard';
 import Orders from './pages/main/Orders';
 import Customers from './pages/main/Customers';
+import CustomerDetail from './pages/main/CustomerDetail';
 import ErrorPage from './pages/main/ErrorPage';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Forgot from './pages/auth/Forgot';
+
+const Products = React.lazy(() => import("./pages/main/Products"));
+const ProductDetail = React.lazy(() => import("./pages/main/ProductDetail"));
 function App() {
   return (
     <Suspense fallback={<Loading />}>
@@ -19,6 +23,9 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
+          <Route path="/customers/:id" element={<CustomerDetail />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
 
           <Route path="/error-400" element={
             <ErrorPage

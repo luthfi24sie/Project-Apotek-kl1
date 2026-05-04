@@ -4,6 +4,7 @@ import {
   FaHome, 
   FaListUl, 
   FaUsers,
+  FaBoxOpen,
   FaPlus,
   FaExclamationTriangle,
   FaLock,
@@ -48,6 +49,12 @@ export default function Sidebar() {
             <NavLink to="/customers" className={menuClass}>
               <FaUsers className="mr-2 text-xl" />
               <span className="text-sm tracking-wide">Customers</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/products" className={menuClass}>
+              <FaBoxOpen className="mr-2 text-xl" />
+              <span className="text-sm tracking-wide">Products</span>
             </NavLink>
           </li>
         </ul>

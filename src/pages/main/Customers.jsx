@@ -1,41 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
+import { customersSeed } from "./customersSeed";
 
 export default function Customers() {
-    const initialCustomers = useMemo(() => ([
-        { customerId: "CUST-2001", customerName: "Budi Santoso", email: "budi.santoso@mail.com", phone: "0812-3456-7801", loyalty: "Gold" },
-        { customerId: "CUST-2002", customerName: "Siti Aminah", email: "siti.aminah@mail.com", phone: "0812-3456-7802", loyalty: "Silver" },
-        { customerId: "CUST-2003", customerName: "Andi Wijaya", email: "andi.wijaya@mail.com", phone: "0812-3456-7803", loyalty: "Bronze" },
-        { customerId: "CUST-2004", customerName: "Dewi Lestari", email: "dewi.lestari@mail.com", phone: "0812-3456-7804", loyalty: "Gold" },
-        { customerId: "CUST-2005", customerName: "Rizky Pratama", email: "rizky.pratama@mail.com", phone: "0812-3456-7805", loyalty: "Silver" },
-        { customerId: "CUST-2006", customerName: "Nabila Putri", email: "nabila.putri@mail.com", phone: "0812-3456-7806", loyalty: "Bronze" },
-        { customerId: "CUST-2007", customerName: "Ahmad Fauzi", email: "ahmad.fauzi@mail.com", phone: "0812-3456-7807", loyalty: "Gold" },
-        { customerId: "CUST-2008", customerName: "Intan Permata", email: "intan.permata@mail.com", phone: "0812-3456-7808", loyalty: "Silver" },
-        { customerId: "CUST-2009", customerName: "Dimas Saputra", email: "dimas.saputra@mail.com", phone: "0812-3456-7809", loyalty: "Bronze" },
-        { customerId: "CUST-2010", customerName: "Putri Aulia", email: "putri.aulia@mail.com", phone: "0812-3456-7810", loyalty: "Gold" },
-        { customerId: "CUST-2011", customerName: "Fajar Nugroho", email: "fajar.nugroho@mail.com", phone: "0812-3456-7811", loyalty: "Silver" },
-        { customerId: "CUST-2012", customerName: "Maya Sari", email: "maya.sari@mail.com", phone: "0812-3456-7812", loyalty: "Bronze" },
-        { customerId: "CUST-2013", customerName: "Rina Kurnia", email: "rina.kurnia@mail.com", phone: "0812-3456-7813", loyalty: "Gold" },
-        { customerId: "CUST-2014", customerName: "Yusuf Ramadhan", email: "yusuf.ramadhan@mail.com", phone: "0812-3456-7814", loyalty: "Silver" },
-        { customerId: "CUST-2015", customerName: "Sarah Nabila", email: "sarah.nabila@mail.com", phone: "0812-3456-7815", loyalty: "Bronze" },
-        { customerId: "CUST-2016", customerName: "Gilang Prakoso", email: "gilang.prakoso@mail.com", phone: "0812-3456-7816", loyalty: "Gold" },
-        { customerId: "CUST-2017", customerName: "Ayu Wulandari", email: "ayu.wulandari@mail.com", phone: "0812-3456-7817", loyalty: "Silver" },
-        { customerId: "CUST-2018", customerName: "Hendra Gunawan", email: "hendra.gunawan@mail.com", phone: "0812-3456-7818", loyalty: "Bronze" },
-        { customerId: "CUST-2019", customerName: "Tika Maharani", email: "tika.maharani@mail.com", phone: "0812-3456-7819", loyalty: "Gold" },
-        { customerId: "CUST-2020", customerName: "Bagas Aditya", email: "bagas.aditya@mail.com", phone: "0812-3456-7820", loyalty: "Silver" },
-        { customerId: "CUST-2021", customerName: "Rafi Akbar", email: "rafi.akbar@mail.com", phone: "0812-3456-7821", loyalty: "Bronze" },
-        { customerId: "CUST-2022", customerName: "Vina Melati", email: "vina.melati@mail.com", phone: "0812-3456-7822", loyalty: "Gold" },
-        { customerId: "CUST-2023", customerName: "Nanda Putra", email: "nanda.putra@mail.com", phone: "0812-3456-7823", loyalty: "Silver" },
-        { customerId: "CUST-2024", customerName: "Shinta Ayu", email: "shinta.ayu@mail.com", phone: "0812-3456-7824", loyalty: "Bronze" },
-        { customerId: "CUST-2025", customerName: "Arif Setiawan", email: "arif.setiawan@mail.com", phone: "0812-3456-7825", loyalty: "Gold" },
-        { customerId: "CUST-2026", customerName: "Dinda Mahesa", email: "dinda.mahesa@mail.com", phone: "0812-3456-7826", loyalty: "Silver" },
-        { customerId: "CUST-2027", customerName: "Kevin Pratama", email: "kevin.pratama@mail.com", phone: "0812-3456-7827", loyalty: "Bronze" },
-        { customerId: "CUST-2028", customerName: "Anisa Rahma", email: "anisa.rahma@mail.com", phone: "0812-3456-7828", loyalty: "Gold" },
-        { customerId: "CUST-2029", customerName: "Doni Haryanto", email: "doni.haryanto@mail.com", phone: "0812-3456-7829", loyalty: "Silver" },
-        { customerId: "CUST-2030", customerName: "Nia Paramitha", email: "nia.paramitha@mail.com", phone: "0812-3456-7830", loyalty: "Bronze" },
-    ]), []);
-
-    const [customers, setCustomers] = useState(initialCustomers);
+    const [customers, setCustomers] = useState(customersSeed);
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [form, setForm] = useState({
         customerName: "",
@@ -106,12 +75,17 @@ export default function Customers() {
                                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Email</th>
                                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Phone</th>
                                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Loyalty</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
                                 {customers.map((customer) => (
                                     <tr key={customer.customerId} className="hover:bg-gray-50/50 transition-colors">
-                                        <td className="px-6 py-4 font-bold text-sm text-hijau">{customer.customerId}</td>
+                                        <td className="px-6 py-4 font-bold text-sm">
+                                            <Link to={`/customers/${customer.customerId}`} className="text-hijau hover:underline">
+                                                {customer.customerId}
+                                            </Link>
+                                        </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center space-x-3">
                                                 <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-400">
@@ -126,6 +100,11 @@ export default function Customers() {
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${loyaltyClass(customer.loyalty)}`}>
                                                 {customer.loyalty}
                                             </span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <Link to={`/customers/${customer.customerId}`} className="text-hijau text-sm font-bold hover:underline">
+                                                Detail
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))}
