@@ -6,6 +6,11 @@ import medicines from "./medicines.json";
 export default function Medicines() {
     const [query, setQuery] = useState("");
 
+    const fallbackImageUrl = (item) => {
+        const text = encodeURIComponent(item?.name || item?.code || "Medicine");
+        return `https://dummyjson.com/image/80x80?text=${text}`;
+    };
+
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase();
         if (!q) return medicines;
@@ -66,6 +71,10 @@ export default function Medicines() {
                                                     alt={item.name}
                                                     className="w-10 h-10 rounded-xl object-cover border border-gray-100"
                                                     loading="lazy"
+                                                    onError={(e) => {
+                                                        e.currentTarget.onerror = null;
+                                                        e.currentTarget.src = fallbackImageUrl(item);
+                                                    }}
                                                 />
                                                 <Link to={`/medicines/${item.id}`} className="text-hijau font-bold hover:underline">
                                                     {item.name}

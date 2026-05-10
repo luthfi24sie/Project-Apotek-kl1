@@ -30,6 +30,11 @@ export default function MedicineDetail() {
         return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(numberValue);
     };
 
+    const fallbackImageUrl = (item) => {
+        const text = encodeURIComponent(item?.name || item?.code || "Medicine");
+        return `https://dummyjson.com/image/1200x480?text=${text}`;
+    };
+
     return (
         <div id="medicine-detail-container" className="pb-10">
             <PageHeader title="Medicine Detail" breadcrumb={["Dashboard", "Medicines", String(medicine.id)]}>
@@ -45,6 +50,10 @@ export default function MedicineDetail() {
                         alt={medicine.name}
                         className="rounded-2xl mb-5 w-full h-64 object-cover border border-gray-100"
                         loading="lazy"
+                        onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = fallbackImageUrl(medicine);
+                        }}
                     />
                     <div className="flex items-start justify-between gap-4">
                         <div>
