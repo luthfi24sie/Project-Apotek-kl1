@@ -5,6 +5,7 @@ import {
   FaListUl, 
   FaUsers,
   FaBoxOpen,
+  FaTruck,
   FaPlus,
   FaExclamationTriangle,
   FaLock,
@@ -24,9 +25,9 @@ export default function Sidebar() {
       {/* Logo */}
       <div id="sidebar-logo" className="p-8 flex flex-col">
         <span id="logo-title" className="font-poppins font-[1000] text-[48px] leading-tight text-teks">
-          Sedap <b id="logo-dot" className="text-hijau">.</b>
+          Apotek <b id="logo-dot" className="text-hijau">.</b>
         </span>
-        <span id="logo-subtitle" className="text-teks-samping font-semibold font-barlow text-xs">Modern Admin Dashboard</span>
+        <span id="logo-subtitle" className="text-teks-samping font-semibold font-barlow text-xs">Pharmacy CRM Dashboard</span>
       </div>
 
       {/* List Menu */}
@@ -52,9 +53,15 @@ export default function Sidebar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/products" className={menuClass}>
+            <NavLink to="/medicines" className={menuClass}>
               <FaBoxOpen className="mr-2 text-xl" />
-              <span className="text-sm tracking-wide">Products</span>
+              <span className="text-sm tracking-wide">Medicines</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/suppliers" className={menuClass}>
+              <FaTruck className="mr-2 text-xl" />
+              <span className="text-sm tracking-wide">Suppliers</span>
             </NavLink>
           </li>
         </ul>
@@ -96,7 +103,7 @@ export default function Sidebar() {
         </div>
         
         <div className="flex flex-col gap-1">
-          <span id="footer-brand" className="font-bold text-gray-400 text-[10px] uppercase tracking-widest">Sedap Restaurant Admin Dashboard</span>
+          <span id="footer-brand" className="font-bold text-gray-400 text-[10px] uppercase tracking-widest">Apotek CRM Admin Dashboard</span>
           <p id="footer-copyright" className="font-light text-gray-400 text-[10px]">&copy; 2025 All Right Reserved</p>
         </div>
       </div>
