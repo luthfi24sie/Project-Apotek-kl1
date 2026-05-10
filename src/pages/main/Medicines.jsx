@@ -6,6 +6,75 @@ import medicines from "./medicines.json";
 export default function Medicines() {
     const [query, setQuery] = useState("");
 
+    const iconFor = (item, sizeClass) => {
+        const name = String(item.name || "").toLowerCase();
+        const category = String(item.category || "").toLowerCase();
+
+        if (name.includes("thermometer")) {
+            return (
+                <svg viewBox="0 0 24 24" className={sizeClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0Z" />
+                    <line x1="12" y1="7" x2="12" y2="15" />
+                </svg>
+            );
+        }
+
+        if (name.includes("tensimeter")) {
+            return (
+                <svg viewBox="0 0 24 24" className={sizeClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="7" width="8" height="10" rx="2" />
+                    <path d="M11 12h4a4 4 0 0 1 4 4v1" />
+                    <path d="M17 8h4v4" />
+                </svg>
+            );
+        }
+
+        if (category.includes("device")) {
+            return (
+                <svg viewBox="0 0 24 24" className={sizeClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0Z" />
+                    <line x1="12" y1="7" x2="12" y2="15" />
+                </svg>
+            );
+        }
+
+        if (category.includes("syrup") || category.includes("liquid")) {
+            return (
+                <svg viewBox="0 0 24 24" className={sizeClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 3h6" />
+                    <path d="M10 3v3l-2 3v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-3V3" />
+                    <path d="M8 13h8" />
+                </svg>
+            );
+        }
+
+        if (category.includes("supply") || category.includes("sachet")) {
+            return (
+                <svg viewBox="0 0 24 24" className={sizeClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 3h10v18H7z" />
+                    <path d="M7 7h10" />
+                    <path d="M9 12h6" />
+                </svg>
+            );
+        }
+
+        return (
+            <svg viewBox="0 0 24 24" className={sizeClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10.5 6.5 6.5 10.5a4.5 4.5 0 1 0 6.4 6.4l4-4a4.5 4.5 0 0 0-6.4-6.4Z" />
+                <path d="M8.2 8.8 15.2 15.8" />
+            </svg>
+        );
+    };
+
+    const visualClass = (item) => {
+        const name = String(item.name || "").toLowerCase();
+        const category = String(item.category || "").toLowerCase();
+        if (name.includes("thermometer") || name.includes("tensimeter") || category.includes("device")) return "bg-blue-50 text-blue-600";
+        if (category.includes("syrup") || category.includes("liquid")) return "bg-amber-50 text-amber-700";
+        if (category.includes("supply") || category.includes("sachet")) return "bg-purple-50 text-purple-600";
+        return "bg-emerald-50 text-emerald-600";
+    };
+
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase();
         if (!q) return medicines;
@@ -61,11 +130,9 @@ export default function Medicines() {
                                         <td className="px-6 py-4 text-sm font-bold text-gray-500">{index + 1}.</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <img
-                                                    src={item.image}
-                                                    alt={item.name}
-                                                    className="w-10 h-10 rounded-xl object-cover border border-gray-100"
-                                                />
+                                                <div className={`w-10 h-10 rounded-xl border border-gray-100 flex items-center justify-center ${visualClass(item)}`}>
+                                                    {iconFor(item, "w-5 h-5")}
+                                                </div>
                                                 <Link to={`/medicines/${item.id}`} className="text-hijau font-bold hover:underline">
                                                     {item.name}
                                                 </Link>
@@ -86,4 +153,3 @@ export default function Medicines() {
         </div>
     );
 }
-
