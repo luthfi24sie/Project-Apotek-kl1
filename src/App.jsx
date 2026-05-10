@@ -15,6 +15,8 @@ import Forgot from './pages/auth/Forgot';
 
 const Products = React.lazy(() => import("./pages/main/Products"));
 const ProductDetail = React.lazy(() => import("./pages/main/ProductDetail"));
+const Medicines = React.lazy(() => import("./pages/main/Medicines"));
+const MedicineDetail = React.lazy(() => import("./pages/main/MedicineDetail"));
 const Suppliers = React.lazy(() => import("./pages/main/Suppliers"));
 const SupplierDetail = React.lazy(() => import("./pages/main/SupplierDetail"));
 function App() {
@@ -26,8 +28,8 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/:id" element={<CustomerDetail />} />
-          <Route path="/medicines" element={<Products />} />
-          <Route path="/medicines/:id" element={<ProductDetail />} />
+          <Route path="/medicines" element={<Medicines />} />
+          <Route path="/medicines/:id" element={<MedicineDetail />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} />
           <Route path="/suppliers" element={<Suppliers />} />

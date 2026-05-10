@@ -45,11 +45,11 @@ export default function Suppliers() {
                         <table className="w-full text-left">
                             <thead className="bg-hijau">
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">#</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">No</th>
                                     <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Name</th>
                                     <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Code</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">City</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Phone</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Kota</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Nomor Telepon</th>
                                     <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Last Delivery</th>
                                 </tr>

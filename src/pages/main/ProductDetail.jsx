@@ -37,8 +37,8 @@ export default function ProductDetail() {
     if (error) {
         return (
             <div id="product-detail-container" className="pb-10">
-                <PageHeader title="Medicine Detail" breadcrumb={["Dashboard", "Medicines", "Error"]}>
-                    <Link to="/medicines" className="bg-hijau text-white px-4 py-2 rounded-lg font-bold">
+                <PageHeader title="Product Detail" breadcrumb={["Dashboard", "Products", "Error"]}>
+                    <Link to="/products" className="bg-hijau text-white px-4 py-2 rounded-lg font-bold">
                         Back
                     </Link>
                 </PageHeader>
@@ -54,8 +54,8 @@ export default function ProductDetail() {
     if (!product) {
         return (
             <div id="product-detail-container" className="pb-10">
-                <PageHeader title="Medicine Detail" breadcrumb={["Dashboard", "Medicines", String(id)]}>
-                    <Link to="/medicines" className="bg-hijau text-white px-4 py-2 rounded-lg font-bold">
+                <PageHeader title="Product Detail" breadcrumb={["Dashboard", "Products", String(id)]}>
+                    <Link to="/products" className="bg-hijau text-white px-4 py-2 rounded-lg font-bold">
                         Back
                     </Link>
                 </PageHeader>
@@ -70,8 +70,8 @@ export default function ProductDetail() {
 
     return (
         <div id="product-detail-container" className="pb-10">
-            <PageHeader title="Medicine Detail" breadcrumb={["Dashboard", "Medicines", String(product.id)]}>
-                <Link to="/medicines" className="bg-hijau text-white px-4 py-2 rounded-lg font-bold">
+            <PageHeader title="Product Detail" breadcrumb={["Dashboard", "Products", String(product.id)]}>
+                <Link to="/products" className="bg-hijau text-white px-4 py-2 rounded-lg font-bold">
                     Back
                 </Link>
             </PageHeader>
