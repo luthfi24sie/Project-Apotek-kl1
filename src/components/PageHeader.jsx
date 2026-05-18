@@ -1,32 +1,40 @@
 import React from 'react';
+import BreadcrumbNav from './ui/BreadcrumbNav';
 
-export default function PageHeader({ title, breadcrumb, children }) {
-    return (
-        <div id="pageheader-container" className="flex items-center justify-between p-4">
-            <div id="pageheader-left" className="flex flex-col">
-                <span id="page-title" className="text-3xl font-semibold text-teks">
-                    {title}
-                </span>
-                <div id="breadcrumb-links" className="flex items-center font-medium space-x-2 mt-2">
-                    {Array.isArray(breadcrumb) ? (
-                        breadcrumb.map((item, index) => (
-                            <React.Fragment key={index}>
-                                <span className={index === breadcrumb.length - 1 ? "text-gray-500" : "text-hijau"}>
-                                    {item}
-                                </span>
-                                {index < breadcrumb.length - 1 && (
-                                    <span className="text-gray-500">/</span>
-                                )}
-                            </React.Fragment>
-                        ))
-                    ) : (
-                        <span className="text-gray-500">{breadcrumb}</span>
-                    )}
-                </div>
-            </div>
-            <div id="action-button">
-                {children}
-            </div>
+/**
+ * PageHeader Component - Apotek Sehat Design System
+ * Judul halaman kiri (H1 font-size 20px font-weight 600)
+ * Subtitle/deskripsi di bawah judul, text-secondary font-size 13px
+ * Tombol aksi di kanan (misal "+ Add Medicine" warna #EF4444)
+ */
+export default function PageHeader({ 
+  title, 
+  subtitle, 
+  breadcrumb = [], 
+  children,
+  className = "" 
+}) {
+  return (
+    <div className={`flex flex-col gap-4 mb-6 ${className}`}>
+      {breadcrumb.length > 0 && (
+        <BreadcrumbNav items={breadcrumb} />
+      )}
+      
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col">
+          <h1 className="text-[20px] font-semibold text-text-primary leading-tight">
+            {title}
+          </h1>
+          {subtitle && (
+            <p className="text-[13px] text-text-secondary mt-1">
+              {subtitle}
+            </p>
+          )}
         </div>
-    );
+        <div className="flex items-center gap-3">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 }

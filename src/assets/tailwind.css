@@ -11,19 +11,68 @@
 }
 
 @theme {
+  --font-inter: "Inter", sans-serif;
   --font-barlow: "Barlow", sans-serif;
   --font-poppins: "Poppins", sans-serif;
 
-  --color-latar: #f3f4f6;
-  --color-teks: #374151;
-  --color-teks-samping: #6b7280;
-  --color-garis: #e5e7eb;
-  --color-hijau: #00B074;
-  --color-merah: #ef4444;
-  --color-biru: #3b82f6;
-  --color-kuning: #f59e0b;
+  /* Apotek Sehat Design System Colors */
+  --color-primary: #EF4444;
+  --color-primary-hover: #DC2626;
+  --color-sidebar-bg: #1A1F2E;
+  --color-sidebar-text: #8892A4;
+  --color-topbar-bg: #FFFFFF;
+  --color-page-bg: #F1F5F9;
+  --color-card-bg: #FFFFFF;
+  --color-card-border: #E2E8F0;
+  --color-text-primary: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-border-default: #E2E8F0;
+  
+  /* Semantic Colors */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* Legacy variable mapping to prevent immediate breakage */
+  --color-latar: var(--color-page-bg);
+  --color-teks: var(--color-text-primary);
+  --color-teks-muted: var(--color-text-secondary);
+  --color-garis: var(--color-border-default);
+  --color-hijau: var(--color-success);
+  --color-merah: var(--color-error);
+  --color-biru: var(--color-info);
+  --color-kuning: var(--color-warning);
 }
 
-body {
-  @apply font-barlow;
+@layer base {
+  body {
+    @apply font-inter bg-page-bg text-text-primary antialiased;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  h1 { @apply text-[20px] font-semibold leading-tight; }
+  h2 { @apply text-[18px] font-semibold leading-tight; }
+  h3 { @apply text-[16px] font-semibold leading-tight; }
+  small { @apply text-[11px] leading-tight; }
+}
+
+@layer components {
+  .btn-primary { @apply bg-primary text-white hover:bg-primary-hover transition-colors rounded-[6px] px-4 py-2 font-medium; }
+  .card { @apply bg-white rounded-[8px] border border-card-border shadow-sm; }
+  .input-field { @apply border border-border-default rounded-[6px] focus:border-primary outline-none transition-all; }
+}
+
+/* Custom Scrollbar for Sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333C4D;
+  border-radius: 10px;
 }

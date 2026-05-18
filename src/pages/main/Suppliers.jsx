@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
+import DataTable from "../../components/ui/DataTable";
+import SearchInput from "../../components/ui/SearchInput";
+import Button from "../../components/ui/Button";
+import Badge from "../../components/ui/Badge";
+import { UserPlus } from "lucide-react";
 import suppliers from "./suppliers.json";
 
 export default function Suppliers() {
@@ -15,69 +20,65 @@ export default function Suppliers() {
         });
     }, [query]);
 
-    const statusClass = (status) => {
-        if (status === "Active") return "text-hijau bg-hijau/10";
-        return "text-red-600 bg-red-50";
-    };
+    const columns = [
+        { 
+            header: "Nama Pemasok", 
+            accessor: "name", 
+            render: (val, row) => (
+                <div className="flex items-center gap-3">
+                    <div className="size-8 rounded-full bg-slate-100 flex items-center justify-center text-[11px] font-semibold text-slate-500">
+                        {val.charAt(0)}
+                    </div>
+                    <Link to={`/suppliers/${row.id}`} className="text-primary font-semibold hover:underline">
+                        {val}
+                    </Link>
+                </div>
+            )
+        },
+        { header: "Kode", accessor: "code" },
+        { header: "Kota", accessor: "city" },
+        { header: "No. Telepon", accessor: "phone" },
+        { 
+            header: "Status", 
+            accessor: "status", 
+            render: (val) => (
+                <Badge variant={val === 'Active' ? 'success' : 'error'}>
+                    {val === 'Active' ? 'Aktif' : 'Nonaktif'}
+                </Badge>
+            )
+        },
+        { header: "Pengiriman Terakhir", accessor: "lastDelivery" },
+    ];
 
     return (
-        <div id="suppliers-container" className="pb-10">
-            <PageHeader title="Suppliers" breadcrumb={["Dashboard", "Supplier List"]} />
+        <div id="suppliers-container" className="space-y-6">
+            <PageHeader 
+                title="Manajemen Pemasok" 
+                subtitle="Kelola data pemasok obat dan alat kesehatan."
+                breadcrumb={[
+                    { label: "Dashboard", path: "/" },
+                    { label: "Manajemen Kontak", path: "/suppliers" },
+                    { label: "Pemasok" }
+                ]}
+            >
+                <Button icon={UserPlus}>Tambah Pemasok</Button>
+            </PageHeader>
 
-            <div className="px-5 mt-4">
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="p-6 border-b border-gray-50">
-                        <div className="flex flex-col gap-3">
-                            <div>
-                                <h2 className="text-xl font-bold text-teks">Daftar Supplier</h2>
-                                <p className="text-sm text-gray-400 font-medium">Total data: {filtered.length}</p>
-                            </div>
-                            <input
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Cari supplier..."
-                                className="border border-gray-100 p-3 rounded-xl outline-none focus:border-hijau transition-all w-full max-w-xl"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-hijau">
-                                <tr>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">No</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Name</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Code</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Kota</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Nomor Telepon</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Last Delivery</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {filtered.map((item, index) => (
-                                    <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
-                                        <td className="px-6 py-4 text-sm font-bold text-gray-500">{index + 1}.</td>
-                                        <td className="px-6 py-4">
-                                            <Link to={`/suppliers/${item.id}`} className="text-hijau font-bold hover:underline">
-                                                {item.name}
-                                            </Link>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.code}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.city}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.phone}</td>
-                                        <td className="px-6 py-4">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${statusClass(item.status)}`}>
-                                                {item.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.lastDelivery}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+            <div className="bg-white rounded-[8px] border border-border-default shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-border-default">
+                    <SearchInput 
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Cari pemasok berdasarkan nama, kode, atau kota..."
+                        className="max-w-md"
+                    />
                 </div>
+                <DataTable 
+                    columns={columns} 
+                    data={filtered} 
+                    onEdit={(row) => console.log('Edit', row)}
+                    onDelete={(row) => console.log('Delete', row)}
+                />
             </div>
         </div>
     );

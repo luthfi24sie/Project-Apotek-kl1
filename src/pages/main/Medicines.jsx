@@ -1,6 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import PageHeader from "../../components/PageHeader";
+import DataTable from "../../components/ui/DataTable";
+import SearchInput from "../../components/ui/SearchInput";
+import Button from "../../components/ui/Button";
+import { Plus } from "lucide-react";
 import medicines from "./medicines.json";
 
 export default function Medicines() {
@@ -26,72 +30,63 @@ export default function Medicines() {
         return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(numberValue);
     };
 
-    return (
-        <div id="medicines-container" className="pb-10">
-            <PageHeader title="Medicines" breadcrumb={["Dashboard", "Medicine List"]} />
-
-            <div className="px-5 mt-4">
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="p-6 border-b border-gray-50">
-                        <div className="flex flex-col gap-3">
-                            <div>
-                                <h2 className="text-xl font-bold text-teks">Daftar Obat</h2>
-                                <p className="text-sm text-gray-400 font-medium">Total data: {filtered.length}</p>
-                            </div>
-                            <input
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                placeholder="Cari obat..."
-                                className="border border-gray-100 p-3 rounded-xl outline-none focus:border-hijau transition-all w-full max-w-xl"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead className="bg-hijau">
-                                <tr>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">#</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Medicine</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Code</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Brand</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Price</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-white uppercase tracking-wider">Stock</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {filtered.map((item, index) => (
-                                    <tr key={item.id} className="hover:bg-gray-50/50 transition-colors">
-                                        <td className="px-6 py-4 text-sm font-bold text-gray-500">{index + 1}.</td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <img
-                                                    src={item.image}
-                                                    alt={item.name}
-                                                    className="w-10 h-10 rounded-xl object-cover border border-gray-100"
-                                                    loading="lazy"
-                                                    onError={(e) => {
-                                                        e.currentTarget.onerror = null;
-                                                        e.currentTarget.src = fallbackImageUrl(item);
-                                                    }}
-                                                />
-                                                <Link to={`/medicines/${item.id}`} className="text-hijau font-bold hover:underline">
-                                                    {item.name}
-                                                </Link>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.code}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.category}</td>
-                                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{item.brand}</td>
-                                        <td className="px-6 py-4 text-sm font-bold text-teks">{formatRupiah(item.price)}</td>
-                                        <td className="px-6 py-4 text-sm font-bold text-teks">{item.stock}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+    const columns = [
+        { 
+            header: "Obat", 
+            accessor: "name", 
+            render: (val, row) => (
+                <div className="flex items-center gap-3">
+                    <img
+                        src={row.image}
+                        alt={val}
+                        className="w-10 h-10 rounded-[6px] object-cover border border-border-default"
+                        loading="lazy"
+                        onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = fallbackImageUrl(row);
+                        }}
+                    />
+                    <Link to={`/medicines/${row.id}`} className="text-primary font-semibold hover:underline">
+                        {val}
+                    </Link>
                 </div>
+            )
+        },
+        { header: "Kode", accessor: "code" },
+        { header: "Kategori", accessor: "category" },
+        { header: "Merek", accessor: "brand" },
+        { header: "Harga", accessor: "price", render: (val) => formatRupiah(val) },
+        { header: "Stok", accessor: "stock" },
+    ];
+
+    return (
+        <div id="medicines-container" className="space-y-6">
+            <PageHeader 
+                title="Daftar Obat" 
+                subtitle="Kelola stok dan informasi obat di apotek."
+                breadcrumb={[
+                    { label: "Dashboard", path: "/" },
+                    { label: "Daftar Obat" }
+                ]}
+            >
+                <Button icon={Plus}>Tambah Obat</Button>
+            </PageHeader>
+
+            <div className="bg-white rounded-[8px] border border-border-default shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-border-default">
+                    <SearchInput 
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Cari obat berdasarkan nama, kode, atau kategori..."
+                        className="max-w-md"
+                    />
+                </div>
+                <DataTable 
+                    columns={columns} 
+                    data={filtered} 
+                    onEdit={(row) => console.log('Edit', row)}
+                    onDelete={(row) => console.log('Delete', row)}
+                />
             </div>
         </div>
     );
