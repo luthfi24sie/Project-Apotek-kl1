@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { NavLink, useLocation } from "react-router-dom";
 import { 
   ChevronDown, 
@@ -27,6 +27,7 @@ export default function Sidebar({
   onUpdateProfile
 }) {
   const location = useLocation();
+  const fileInputRef = useRef(null);
   const [openMenus, setOpenMenus] = useState({});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editForm, setEditForm] = useState({ userName, role, avatar });
@@ -46,6 +47,21 @@ export default function Sidebar({
       onUpdateProfile(editForm);
     }
     setIsEditModalOpen(false);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditForm(prev => ({ ...prev, avatar: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
   };
 
   const navItemClass = (isActive) => 
@@ -171,11 +187,18 @@ export default function Sidebar({
       >
         <div className="space-y-5">
           <div className="flex flex-col items-center gap-3 mb-2">
-            <div className="relative group cursor-pointer">
+            <div className="relative group cursor-pointer" onClick={triggerFileInput}>
               <img src={editForm.avatar} className="size-24 rounded-full border-4 border-page-bg object-cover shadow-md" alt="Preview" />
               <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Camera size={24} className="text-white" />
               </div>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                className="hidden" 
+                accept="image/*" 
+                onChange={handleFileChange} 
+              />
             </div>
             <p className="text-[12px] text-text-secondary">Klik foto untuk mengganti avatar</p>
           </div>
@@ -193,14 +216,6 @@ export default function Sidebar({
             value={editForm.role}
             onChange={(e) => setEditForm({...editForm, role: e.target.value})}
             placeholder="Contoh: Super Admin"
-          />
-
-          <InputField 
-            label="URL Foto Profil" 
-            value={editForm.avatar}
-            onChange={(e) => setEditForm({...editForm, avatar: e.target.value})}
-            placeholder="https://..."
-            icon={Camera}
           />
         </div>
       </Modal>

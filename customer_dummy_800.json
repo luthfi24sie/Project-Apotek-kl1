@@ -1,4 +1,4 @@
-export const customersSeed = [
+[
     {
         "customerId": "PAT-0001",
         "customerName": "Budi Prakoso",
@@ -16799,4 +16799,4 @@ export const customersSeed = [
         "source": "Walk-in",
         "promo": "Ya"
     }
-];
+]
