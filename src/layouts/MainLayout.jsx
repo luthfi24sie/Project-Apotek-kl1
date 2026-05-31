@@ -10,7 +10,8 @@ import {
   Bell, 
   MessageSquare, 
   Activity, 
-  UserCheck 
+  UserCheck,
+  Zap
 } from "lucide-react";
 
 export default function MainLayout() {
@@ -62,6 +63,7 @@ export default function MainLayout() {
         { id: 'chat', label: 'Chat Pengunjung', icon: MessageSquare, path: '/chat' },
         { id: 'settings', label: 'Pengaturan Aplikasi', icon: Settings, path: '/settings' },
         { id: 'covid-19', label: 'Covid-19', icon: Activity, path: '/covid-19' },
+        { id: 'fitur-xyz', label: 'Fitur XYZ', icon: Zap, path: '/fitur-xyz' },
     ];
 
     return (
