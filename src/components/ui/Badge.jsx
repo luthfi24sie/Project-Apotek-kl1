@@ -1,22 +1,34 @@
-import React from 'react';
+import * as React from "react"
+import { cva } from "class-variance-authority";
 
-/**
- * Badge Component - Apotek Sehat Design System
- * Variant: success, warning, error, info, neutral
- * Border Radius: 6px
- */
-export default function Badge({ children, variant = "info", className = "" }) {
-  const variants = {
-    success: "bg-success/10 text-success border-success/20",
-    warning: "bg-warning/10 text-warning border-warning/20",
-    error: "bg-error/10 text-error border-error/20",
-    info: "bg-info/10 text-info border-info/20",
-    neutral: "bg-slate-100 text-slate-600 border-slate-200",
-  };
+import { cn } from "@/lib/utils"
 
-  return (
-    <span className={`px-2 py-0.5 rounded-[6px] text-[11px] font-medium border inline-flex items-center justify-center ${variants[variant] || variants.info} ${className}`}>
-      {children}
-    </span>
-  );
+const badgeVariants = cva(
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+        secondary:
+          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        destructive:
+          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
+        outline: "text-foreground",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
+
+function Badge({
+  className,
+  variant,
+  ...props
+}) {
+  return (<div className={cn(badgeVariants({ variant }), className)} {...props} />);
 }
+
+export { Badge, badgeVariants }

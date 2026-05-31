@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import PageHeader from '../../components/PageHeader';
 import { ChevronDown, Check } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 /**
  * 3 Komponen UI Reusable Baru (Pertemuan 11):
@@ -173,6 +183,17 @@ export default function FiturXyz() {
             <p className="text-[12px] text-text-secondary">Contoh penggunaan komponen Accordion untuk informasi FAQ.</p>
           </div>
           <Accordion items={accordionItems} />
+          
+          <div className="pt-6 space-y-4">
+             <h3 className="text-[16px] font-bold text-text-primary">shadcn/ui Button Variants</h3>
+             <div className="flex flex-wrap gap-2">
+                <Button variant="default">Default</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="destructive">Destructive</Button>
+             </div>
+          </div>
         </div>
 
         {/* Section Tabs & Switch */}
@@ -182,6 +203,30 @@ export default function FiturXyz() {
             <p className="text-[12px] text-text-secondary">Contoh penggunaan komponen Tabs dan Switch.</p>
           </div>
           <Tabs tabs={tabsContent} />
+
+          <Card className="mt-4 w-full">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Belajar shadcn/ui</CardTitle>
+                <Badge variant="secondary">Baru</Badge>
+              </div>
+              <CardDescription>
+                Contoh penggunaan komponen shadcn/ui di React
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent>
+              <p className="text-sm text-text-secondary">
+                Komponen ini dibuat di branch <strong>setup-shadcnui-fitur</strong> 
+                lalu di-merge ke main.
+              </p>
+            </CardContent>
+
+            <CardFooter className="flex gap-2">
+              <Button>Simpan</Button>
+              <Button variant="outline">Batal</Button>
+            </CardFooter>
+          </Card>
         </div>
       </div>
 
