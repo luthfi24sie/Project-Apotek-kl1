@@ -1,9 +1,9 @@
 import { useState } from "react"
-import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
 import InputField from "../../components/ui/InputField"
 import Button from "../../components/ui/Button"
 import AlertBanner from "../../components/ui/AlertBanner"
+import { supabase } from "../../lib/supabaseClient"
 
 export default function Login() {
     const navigate = useNavigate() 
@@ -28,33 +28,23 @@ export default function Login() {
         setError("")
 
         if (!dataForm.email.trim() || !dataForm.password.trim()) {
-            setError("Username dan password wajib diisi")
+            setError("Email dan password wajib diisi")
             setLoading(false)
             return
         }
 
-        axios
-            .post("https://dummyjson.com/user/login", {
-                username: dataForm.email,
-                password: dataForm.password,
-            })
-            .then((response) => {
-                if (response.status !== 200) {
-                    setError(response.data?.message || "Terjadi kesalahan")
-                    return 
-                }
-                navigate("/")
-            })
-            .catch((err) => {
-                if (err.response) {
-                    setError(err.response.data?.message || "Terjadi kesalahan")
-                } else {
-                    setError(err.message || "Kesalahan tidak diketahui")
-                }
-            })
-            .finally(() => {
-                setLoading(false) 
-            })
+        const { data, error: err } = await supabase.auth.signInWithPassword({
+            email: dataForm.email,
+            password: dataForm.password,
+        })
+
+        if (err) {
+            setError(err.message || "Terjadi kesalahan saat login")
+        } else {
+            navigate("/")
+        }
+        
+        setLoading(false)
     }
 
     return (
@@ -66,11 +56,12 @@ export default function Login() {
             )}
 
             <InputField
-                label="Username"
+                label="Email"
                 name="email"
                 value={dataForm.email}
                 onChange={handleChange}
-                placeholder="Masukkan username (contoh: emilys)"
+                placeholder="Masukkan email (contoh: user@apoteksehat.com)"
+                type="email"
                 required
             />
 

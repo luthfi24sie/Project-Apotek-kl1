@@ -11,7 +11,8 @@ import {
   MessageSquare, 
   Activity, 
   UserCheck,
-  Zap
+  Zap,
+  StickyNote
 } from "lucide-react";
 
 export default function MainLayout() {
@@ -64,6 +65,7 @@ export default function MainLayout() {
         { id: 'settings', label: 'Pengaturan Aplikasi', icon: Settings, path: '/settings' },
         { id: 'covid-19', label: 'Covid-19', icon: Activity, path: '/covid-19' },
         { id: 'fitur-xyz', label: 'Fitur XYZ', icon: Zap, path: '/fitur-xyz' },
+        { id: 'notes', label: 'Catatan', icon: StickyNote, path: '/notes' },
     ];
 
     return (

@@ -10,6 +10,7 @@ import Customers from './pages/main/Customers';
 import CustomerDetail from './pages/main/CustomerDetail';
 import Components from './pages/main/Components';
 import FiturXyz from './pages/main/FiturXyz';
+import Notes from './pages/main/Notes';
 import ErrorPage from './pages/main/ErrorPage';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
@@ -38,6 +39,7 @@ function App() {
           <Route path="/suppliers/:id" element={<SupplierDetail />} />
           <Route path="/components" element={<Components />} />
           <Route path="/fitur-xyz" element={<FiturXyz />} />
+          <Route path="/notes" element={<Notes />} />
 
           <Route path="/error-400" element={
             <ErrorPage
