@@ -111,16 +111,16 @@ export default function Register() {
             <Button
                 type="submit"
                 loading={loading}
-                className="w-full h-[40px] text-[14px]"
+                className="w-full h-[44px] text-[14px]"
                 variant="primary"
             >
-                DAFTAR
+                DAFTAR AKUN BARU
             </Button>
             
-            <div className="text-center mt-4">
+            <div className="text-center">
                 <span className="text-text-muted text-[13px]">Sudah punya akun? </span>
-                <Link to="/login" className="text-primary font-medium hover:underline text-[13px]">
-                    Masuk disini
+                <Link to="/login" className="text-primary font-bold hover:underline text-[13px]">
+                    Masuk ke Akun
                 </Link>
             </div>
         </form>

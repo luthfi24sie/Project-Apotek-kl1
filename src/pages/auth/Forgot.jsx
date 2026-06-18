@@ -66,15 +66,15 @@ export default function Forgot() {
             <Button
                 type="submit"
                 loading={loading}
-                className="w-full h-[40px] text-[14px]"
+                className="w-full h-[44px] text-[14px]"
                 variant="primary"
             >
-                KIRIM LINK RESET
+                KIRIM LINK RESET PASSWORD
             </Button>
 
             <div className="text-center">
-                <Link to="/login" className="text-[13px] font-medium text-primary hover:underline">
-                    Kembali ke Login
+                <Link to="/login" className="text-[13px] font-bold text-primary hover:underline">
+                    🔙 Kembali ke Halaman Login
                 </Link>
             </div>
         </form>
