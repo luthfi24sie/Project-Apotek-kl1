@@ -54,7 +54,7 @@ export default function SalesReport() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <PageHeader 
           title="Laporan Penjualan"
-          subtitle="Laporan transaksi dan pendapatan apotek"
+          subtitle="Laporan transaksi dan pendapatan Apotek"
           breadcrumb={[
             { label: 'Dashboard', path: '/' },
             { label: 'Laporan', path: '/reports/sales' },

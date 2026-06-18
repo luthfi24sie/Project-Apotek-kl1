@@ -90,6 +90,13 @@ export default function Login() {
             >
                 MASUK
             </Button>
+
+            <div className="text-center">
+                <span className="text-text-muted text-[13px]">Belum punya akun? </span>
+                <Link to="/register" className="text-primary font-medium hover:underline text-[13px]">
+                    Daftar disini
+                </Link>
+            </div>
         </form>
     )
 }
