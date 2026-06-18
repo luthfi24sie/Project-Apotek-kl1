@@ -90,7 +90,7 @@ export default function Sidebar({
         }`;
 
     return (
-        <div id="sidebar" className={`w-[220px] min-h-screen flex flex-col fixed left-0 top-0 z-40 shadow-xl font-inter ${darkMode ? "bg-slate-900" : "bg-sidebar-bg"}`}>
+        <div id="sidebar" className={`w-[220px] h-screen flex flex-col fixed left-0 top-0 z-40 shadow-xl font-inter ${darkMode ? "bg-slate-900" : "bg-sidebar-bg"}`}>
             {/* Logo Apotek Sehat dengan background kuning seperti Figma */}
             <div className={`h-[60px] flex items-center px-5 border-b flex-shrink-0 ${darkMode ? "border-slate-800" : "border-white/5"} ${darkMode ? "bg-slate-800" : "bg-sidebar-bg-light"}`}>
                 <div className="flex items-center gap-2">
@@ -141,7 +141,7 @@ export default function Sidebar({
             </div>
 
             {/* Navigation List (SEMUA MENU TETAP SAMA PERSIS!) */}
-            <div className="flex-grow px-3 space-y-0.5 overflow-y-auto pb-6 scroll-smooth" style={{ scrollbarWidth: 'thin', scrollbarColor: '#FFC107 transparent' }}>
+            <div className="flex-1 px-3 space-y-0.5 overflow-y-auto pb-6 scroll-smooth" style={{ scrollbarWidth: 'thin', scrollbarColor: '#FFC107 transparent' }}>
                 {menuItems.map((item) => {
                     const hasSubmenu = item.submenu && item.submenu.length > 0;
                     const isMenuOpen = openMenus[item.id];

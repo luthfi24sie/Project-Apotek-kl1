@@ -3,15 +3,26 @@ import PageHeader from '../../components/PageHeader';
 import Badge from '../../components/ui/Badge';
 import { TrendingUp, DollarSign, ShoppingCart, Users, Download } from 'lucide-react';
 import Button from '../../components/ui/Button';
+import LineChart from '../../components/ui/LineChart';
+import BarChart from '../../components/ui/BarChart';
 
 // Data dummy
-const salesData = [
-  { month: 'Januari', revenue: 12500000, orders: 145, customers: 98 },
-  { month: 'Februari', revenue: 15200000, orders: 178, customers: 112 },
-  { month: 'Maret', revenue: 13800000, orders: 165, customers: 105 },
-  { month: 'April', revenue: 18900000, orders: 210, customers: 142 },
-  { month: 'Mei', revenue: 21500000, orders: 245, customers: 168 },
-  { month: 'Juni', revenue: 24800000, orders: 280, customers: 195 },
+const salesDataMonthly = [
+  { name: 'Jan', value: 12500000 },
+  { name: 'Feb', value: 15200000 },
+  { name: 'Mar', value: 13800000 },
+  { name: 'Apr', value: 18900000 },
+  { name: 'Mei', value: 21500000 },
+  { name: 'Jun', value: 24800000 },
+];
+
+const ordersData = [
+  { name: 'Jan', value: 145 },
+  { name: 'Feb', value: 178 },
+  { name: 'Mar', value: 165 },
+  { name: 'Apr', value: 210 },
+  { name: 'Mei', value: 245 },
+  { name: 'Jun', value: 280 },
 ];
 
 const recentTransactions = [
@@ -30,113 +41,13 @@ const formatCurrency = (num) => {
   }).format(num);
 };
 
-// Simple bar chart component
-const SimpleBarChart = () => (
-  <div className="h-64 flex items-end justify-between gap-3 px-2">
-    {salesData.map((item, index) => {
-      const heightPercent = (item.revenue / 25000000) * 100;
-      return (
-        <div key={index} className="flex-1 flex flex-col items-center group">
-          <div className="mb-1 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-bold text-primary bg-white border border-primary px-2 py-1 rounded shadow">
-            {formatCurrency(item.revenue)}
-          </div>
-          <div 
-            className="w-full bg-gradient-to-t from-primary to-red-400 rounded-t-lg transition-all duration-300 hover:from-red-500 hover:to-red-300 hover:scale-105"
-            style={{ height: `${heightPercent}%` }}
-          ></div>
-          <span className="text-xs text-text-secondary mt-2 font-medium">{item.month.slice(0, 3)}</span>
-        </div>
-      );
-    })}
-  </div>
-);
-
-// Simple line chart component
-const SimpleLineChart = () => {
-  const maxValue = 25000000;
-  
-  // Generate path for line
-  const points = salesData.map((item, index) => {
-    const x = (index / (salesData.length - 1)) * 100;
-    const y = 100 - ((item.revenue / maxValue) * 100);
-    return `${x},${y}`;
-  }).join(' ');
-
-  return (
-    <div className="h-64 relative">
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        {/* Grid lines */}
-        {[0, 25, 50, 75, 100].map((y) => (
-          <line 
-            key={y} 
-            x1="0" 
-            y1={y} 
-            x2="100" 
-            y2={y} 
-            stroke="#E2E8F0" 
-            strokeWidth="0.5"
-          />
-        ))}
-        
-        {/* Area fill */}
-        <path 
-          d={`M 0,100 ${points} L 100,100 Z`}
-          fill="url(#gradient)"
-          opacity="0.3"
-        />
-        
-        {/* Line */}
-        <polyline 
-          points={points}
-          fill="none"
-          stroke="#EF4444"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        
-        {/* Dots */}
-        {salesData.map((item, index) => {
-          const x = (index / (salesData.length - 1)) * 100;
-          const y = 100 - ((item.revenue / maxValue) * 100);
-          return (
-            <circle 
-              key={index}
-              cx={x}
-              cy={y}
-              r="2"
-              fill="#EF4444"
-              stroke="#fff"
-              strokeWidth="1"
-            />
-          );
-        })}
-        
-        <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#EF4444" />
-            <stop offset="100%" stopColor="#FCA5A5" />
-          </linearGradient>
-        </defs>
-      </svg>
-      
-      {/* Month labels */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 text-xs text-text-secondary">
-        {salesData.map((item, i) => (
-          <span key={i}>{item.month.slice(0,3)}</span>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 export default function SalesReport() {
   const [period, setPeriod] = useState('6months');
-  const [chartType, setChartType] = useState('bar');
+  const [chartType, setChartType] = useState('line');
 
-  const totalRevenue = salesData.reduce((sum, item) => sum + item.revenue, 0);
-  const totalOrders = salesData.reduce((sum, item) => sum + item.orders, 0);
-  const totalCustomers = salesData.reduce((sum, item) => sum + item.customers, 0);
+  const totalRevenue = 106700000;
+  const totalOrders = 1223;
+  const totalCustomers = 820;
 
   return (
     <div className="animate-in space-y-6">
@@ -154,7 +65,7 @@ export default function SalesReport() {
           <select 
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="border border-border-default rounded-lg px-4 py-2 text-sm bg-white"
+            className="border border-border-default rounded-lg px-4 py-2 text-sm bg-card-bg dark:bg-slate-800 dark:border-slate-700 dark:text-white"
           >
             <option value="1month">1 Bulan Terakhir</option>
             <option value="3months">3 Bulan Terakhir</option>
@@ -167,84 +78,68 @@ export default function SalesReport() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-border-default p-6">
+        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-green-100 rounded-lg">
-              <DollarSign className="text-green-600 size-6" />
+            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <DollarSign className="text-green-600 dark:text-green-400 size-6" />
             </div>
-            <div className="flex items-center gap-1 text-green-600 text-sm font-medium">
+            <div className="flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
               <TrendingUp size={14} />
               <span>+12.5%</span>
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-text-primary">{formatCurrency(totalRevenue)}</h3>
-          <p className="text-text-secondary text-sm">Total Pendapatan</p>
+          <h3 className="text-2xl font-bold text-text-primary dark:text-white">{formatCurrency(totalRevenue)}</h3>
+          <p className="text-text-secondary dark:text-slate-400 text-sm">Total Pendapatan</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-border-default p-6">
+        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <ShoppingCart className="text-blue-600 size-6" />
+            <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <ShoppingCart className="text-blue-600 dark:text-blue-400 size-6" />
             </div>
-            <div className="flex items-center gap-1 text-blue-600 text-sm font-medium">
+            <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 text-sm font-medium">
               <TrendingUp size={14} />
               <span>+8.2%</span>
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-text-primary">{totalOrders}</h3>
-          <p className="text-text-secondary text-sm">Total Pesanan</p>
+          <h3 className="text-2xl font-bold text-text-primary dark:text-white">{totalOrders}</h3>
+          <p className="text-text-secondary dark:text-slate-400 text-sm">Total Pesanan</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-border-default p-6">
+        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-purple-100 rounded-lg">
-              <Users className="text-purple-600 size-6" />
+            <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+              <Users className="text-purple-600 dark:text-purple-400 size-6" />
             </div>
-            <div className="flex items-center gap-1 text-purple-600 text-sm font-medium">
+            <div className="flex items-center gap-1 text-purple-600 dark:text-purple-400 text-sm font-medium">
               <TrendingUp size={14} />
               <span>+5.1%</span>
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-text-primary">{totalCustomers}</h3>
-          <p className="text-text-secondary text-sm">Total Pelanggan</p>
+          <h3 className="text-2xl font-bold text-text-primary dark:text-white">{totalCustomers}</h3>
+          <p className="text-text-secondary dark:text-slate-400 text-sm">Total Pelanggan</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-border-default p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-text-primary">Grafik Pendapatan</h3>
-            <div className="flex gap-2 bg-slate-100 p-1 rounded-lg">
-              <button 
-                onClick={() => setChartType('bar')}
-                className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${chartType === 'bar' ? 'bg-white shadow text-primary' : 'text-text-secondary hover:text-text-primary'}`}
-              >
-                Batang
-              </button>
-              <button 
-                onClick={() => setChartType('line')}
-                className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${chartType === 'line' ? 'bg-white shadow text-primary' : 'text-text-secondary hover:text-text-primary'}`}
-              >
-                Garis
-              </button>
-            </div>
-          </div>
-          {chartType === 'bar' ? <SimpleBarChart /> : <SimpleLineChart />}
+        <div className="lg:col-span-2 space-y-6">
+          <LineChart data={salesDataMonthly} />
+          <BarChart data={ordersData} />
         </div>
 
         {/* Recent Transactions */}
-        <div className="bg-white rounded-xl shadow-sm border border-border-default p-6">
-          <h3 className="text-lg font-bold text-text-primary mb-4">Transaksi Terbaru</h3>
+        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
+          <h3 className="text-lg font-bold text-text-primary dark:text-white mb-4">Transaksi Terbaru</h3>
           <div className="space-y-4">
             {recentTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between pb-4 border-b border-border-default last:border-0">
+              <div key={transaction.id} className="flex items-center justify-between pb-4 border-b border-border-default dark:border-slate-700 last:border-0">
                 <div>
-                  <p className="text-sm font-semibold text-text-primary">{transaction.customer}</p>
-                  <p className="text-xs text-text-secondary">{transaction.medicine}</p>
+                  <p className="text-sm font-semibold text-text-primary dark:text-white">{transaction.customer}</p>
+                  <p className="text-xs text-text-secondary dark:text-slate-400">{transaction.medicine}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-text-primary">{formatCurrency(transaction.amount)}</p>
+                  <p className="text-sm font-bold text-text-primary dark:text-white">{formatCurrency(transaction.amount)}</p>
                   <Badge variant={
                     transaction.status === 'Sukses' ? 'success' : 
                     transaction.status === 'Menunggu' ? 'info' : 'error'
