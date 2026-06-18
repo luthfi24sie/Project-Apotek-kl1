@@ -47,7 +47,17 @@ export default function Sidebar({
     };
 
     const handleLogout = async () => {
-        await supabase.auth.signOut();
+        // Logout untuk sistem sederhana
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("userEmail");
+        
+        // Logout untuk Supabase
+        try {
+            await supabase.auth.signOut();
+        } catch (e) {
+            // Ignore error
+        }
+        
         navigate("/login");
         setIsDropdownOpen(false);
     };

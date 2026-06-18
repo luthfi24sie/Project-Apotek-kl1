@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom"
 import InputField from "../../components/ui/InputField"
 import Button from "../../components/ui/Button"
 import AlertBanner from "../../components/ui/AlertBanner"
-import { supabase } from "../../lib/supabaseClient"
 
 export default function Forgot() {
     const navigate = useNavigate()
@@ -12,7 +11,7 @@ export default function Forgot() {
     const [success, setSuccess] = useState("")
     const [email, setEmail] = useState("")
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
         setError("")
@@ -24,24 +23,18 @@ export default function Forgot() {
             return
         }
 
-        const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.origin + "/login"
-        })
-
-        if (err) {
-            setError(err.message || "Terjadi kesalahan saat mengirim email reset password")
-        } else {
-            setSuccess("Link reset password telah dikirim ke email Anda! Silakan cek kotak masuk atau spam.")
-            setTimeout(() => {
-                navigate("/login")
-            }, 3000)
-        }
+        // Reset password sederhana untuk belajar
+        setSuccess("Link reset password telah dikirim! (Untuk demo, silakan login dengan password baru apapun)")
+        
+        setTimeout(() => {
+            navigate("/login")
+        }, 2000)
         
         setLoading(false)
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-5">
             {error && (
                 <AlertBanner variant="error" onDismiss={() => setError("")}>
                     {error}
@@ -53,30 +46,32 @@ export default function Forgot() {
                 </AlertBanner>
             )}
 
-            <InputField
-                label="Email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Masukkan email Anda"
-                type="email"
-                required
-            />
+            <form onSubmit={handleSubmit} className="space-y-5">
+                <InputField
+                    label="Email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Masukkan email Anda"
+                    type="email"
+                    required
+                />
 
-            <Button
-                type="submit"
-                loading={loading}
-                className="w-full h-[44px] text-[14px]"
-                variant="primary"
-            >
-                KIRIM LINK RESET PASSWORD
-            </Button>
+                <Button
+                    type="submit"
+                    loading={loading}
+                    className="w-full h-[50px] text-[15px] font-bold"
+                    variant="primary"
+                >
+                    📧 KIRIM LINK RESET PASSWORD
+                </Button>
+            </form>
 
-            <div className="text-center">
-                <Link to="/login" className="text-[13px] font-bold text-primary hover:underline">
+            <div className="pt-4 text-center">
+                <Link to="/login" className="text-primary font-bold hover:underline text-[13px]">
                     🔙 Kembali ke Halaman Login
                 </Link>
             </div>
-        </form>
+        </div>
     )
 }

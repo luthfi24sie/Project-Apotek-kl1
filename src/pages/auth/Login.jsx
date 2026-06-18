@@ -3,12 +3,10 @@ import { useNavigate, Link } from "react-router-dom"
 import InputField from "../../components/ui/InputField"
 import Button from "../../components/ui/Button"
 import AlertBanner from "../../components/ui/AlertBanner"
-import { supabase } from "../../lib/supabaseClient"
 
 export default function Login() {
     const navigate = useNavigate() 
     const [loading, setLoading] = useState(false)
-    const [loadingDemo, setLoadingDemo] = useState(false)
     const [error, setError] = useState("")
     const [dataForm, setDataForm] = useState({
         email: "",
@@ -23,102 +21,105 @@ export default function Login() {
         })
     }
 
-    const handleSubmit = async (e) => {
+    const handleSimpleLogin = (e) => {
         e.preventDefault()
         setLoading(true)
         setError("")
 
+        // Login SANGAT MUDAH untuk belajar
         if (!dataForm.email.trim() || !dataForm.password.trim()) {
             setError("Email dan password wajib diisi")
             setLoading(false)
             return
         }
 
-        const { data: _data, error: err } = await supabase.auth.signInWithPassword({
-            email: dataForm.email,
-            password: dataForm.password,
-        })
-
-        if (err) {
-            setError(err.message || "Terjadi kesalahan saat login")
-        } else {
-            navigate("/")
+        // Bisa login dengan email apapun, minimal password 6 karakter!
+        if (dataForm.password.length < 6) {
+            setError("Password minimal 6 karakter")
+            setLoading(false)
+            return
         }
+
+        // Simpan data user di localStorage
+        localStorage.setItem("isLoggedIn", "true")
+        localStorage.setItem("userEmail", dataForm.email)
+        
+        // Beri jeda agar terasa seperti login sungguhan
+        setTimeout(() => {
+            navigate("/")
+        }, 800)
         
         setLoading(false)
     }
 
-    const handleDemoLogin = async () => {
-        setLoadingDemo(true)
-        setError("")
+    const handleQuickLogin = (e) => {
+        e.preventDefault()
+        setLoading(true)
         
-        // Akun demo untuk belajar
-        const { data: _data, error: err } = await supabase.auth.signInWithPassword({
-            email: "demo@apoteksehat.com",
-            password: "demo123",
-        })
-
-        if (err) {
-            setError("Gagal login demo. Silakan gunakan akun demo: demo@apoteksehat.com / demo123")
-        } else {
+        // Login Cepat - 1 klik langsung masuk!
+        localStorage.setItem("isLoggedIn", "true")
+        localStorage.setItem("userEmail", "admin@apoteksehat.com")
+        
+        setTimeout(() => {
             navigate("/")
-        }
+        }, 500)
         
-        setLoadingDemo(false)
+        setLoading(false)
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-5">
             {error && (
                 <AlertBanner variant="error" onDismiss={() => setError("")}>
                     {error}
                 </AlertBanner>
             )}
 
-            {/* Tombol Login Demo */}
+            {/* TOMBOL LOGIN CEPAT - TANPA KETIK APA-APA! */}
             <Button
                 type="button"
-                loading={loadingDemo}
-                className="w-full h-[44px] text-[14px] bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
-                onClick={handleDemoLogin}
+                loading={loading}
+                className="w-full h-[50px] text-[15px] font-bold bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 shadow-lg shadow-green-500/30"
+                onClick={handleQuickLogin}
             >
-                🚀 LOGIN DEMO (CEPET!)
+                ⚡ LOGIN CEPAT - 1 KLIK!
             </Button>
 
-            <div className="relative my-4">
+            {/* Pemisah */}
+            <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-border-default"></div>
+                    <div className="w-full border-t-2 border-dashed border-slate-200"></div>
                 </div>
                 <div className="relative flex justify-center text-xs">
-                    <span className="px-4 bg-white text-text-muted font-medium">
-                        ATAU LOGIN DENGAN AKUN SENDIRI
+                    <span className="px-4 bg-white text-slate-500 font-bold uppercase tracking-wider">
+                        Atau Login Manual
                     </span>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSimpleLogin} className="space-y-5">
                 <InputField
                     label="Email"
                     name="email"
                     value={dataForm.email}
                     onChange={handleChange}
-                    placeholder="Masukkan email (contoh: user@apoteksehat.com)"
+                    placeholder="Masukkan email apapun (contoh: user@apotek.com)"
                     type="email"
                     required
                 />
 
-                <div className="space-y-1">
+                <div className="space-y-2">
                     <InputField
                         label="Password"
                         type="password"
                         name="password"
                         value={dataForm.password}
                         onChange={handleChange}
-                        placeholder="Masukkan password"
+                        placeholder="Masukkan password (min 6 karakter)"
                         required
                     />
                     <div className="text-right">
-                        <Link to="/forgot" className="text-[12px] font-medium text-primary hover:underline">
+                        <Link to="/forgot" className="text-[12px] font-bold text-primary hover:underline">
                             Lupa Password?
                         </Link>
                     </div>
@@ -127,17 +128,17 @@ export default function Login() {
                 <Button
                     type="submit"
                     loading={loading}
-                    className="w-full h-[44px] text-[14px]"
+                    className="w-full h-[50px] text-[15px] font-bold"
                     variant="primary"
                 >
-                    MASUK DENGAN AKUN SENDIRI
+                    🔐 MASUK KE APOTEK SEHAT
                 </Button>
             </form>
 
-            <div className="text-center">
+            <div className="pt-4 text-center">
                 <span className="text-text-muted text-[13px]">Belum punya akun? </span>
                 <Link to="/register" className="text-primary font-bold hover:underline text-[13px]">
-                    Daftar Akun Baru
+                    Daftar Akun Baru Disini
                 </Link>
             </div>
         </div>
