@@ -51,6 +51,15 @@ export default function MainLayout() {
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
         { id: 'orders', label: 'Pesanan', icon: ShoppingCart, path: '/orders' },
         { 
+            id: 'crm', 
+            label: 'CRM', 
+            icon: Users, 
+            submenu: [
+                { label: 'Member', path: '/members' },
+                { label: 'Pelanggan', path: '/customers' }
+            ] 
+        },
+        { 
             id: 'inventory', 
             label: 'Inventory', 
             icon: Package, 
@@ -63,10 +72,9 @@ export default function MainLayout() {
         { 
             id: 'contact', 
             label: 'Manajemen Kontak', 
-            icon: Users, 
+            icon: UserCheck, 
             submenu: [
-                { label: 'Pemasok', path: '/suppliers' },
-                { label: 'Pelanggan', path: '/customers' }
+                { label: 'Pemasok', path: '/suppliers' }
             ] 
         },
         { 

@@ -20,6 +20,8 @@ import NotificationsPage from './pages/main/NotificationsPage';
 import ChatPage from './pages/main/ChatPage';
 import SettingsPage from './pages/main/SettingsPage';
 import CovidPage from './pages/main/CovidPage';
+import Members from './pages/main/Members';
+import MemberDetail from './pages/main/MemberDetail';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Forgot from './pages/auth/Forgot';
@@ -40,6 +42,8 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/:id" element={<CustomerDetail />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/members/:id" element={<MemberDetail />} />
           <Route path="/medicines" element={<Medicines />} />
           <Route path="/medicines/:id" element={<MedicineDetail />} />
           <Route path="/medicine-groups" element={<MedicineGroups />} />
