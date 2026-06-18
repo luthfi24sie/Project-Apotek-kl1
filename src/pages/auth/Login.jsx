@@ -33,7 +33,7 @@ export default function Login() {
             return
         }
 
-        const { data, error: err } = await supabase.auth.signInWithPassword({
+        const { data: _data, error: err } = await supabase.auth.signInWithPassword({
             email: dataForm.email,
             password: dataForm.password,
         })

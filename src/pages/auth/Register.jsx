@@ -48,7 +48,7 @@ export default function Register() {
             return
         }
 
-        const { data, error: err } = await supabase.auth.signUp({
+        const { data: _data, error: err } = await supabase.auth.signUp({
             email: dataForm.email,
             password: dataForm.password,
         })

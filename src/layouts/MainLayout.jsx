@@ -16,76 +16,84 @@ import {
 } from "lucide-react";
 
 export default function MainLayout() {
-    // State for user profile with localStorage persistence
     const [userProfile, setUserProfile] = useState(() => {
         const saved = localStorage.getItem("userProfile");
         return saved ? JSON.parse(saved) : {
-            userName: "Subash",
-            role: "Super Admin",
+            userName: "User",
+            role: "Admin",
             avatar: "https://avatar.iran.liara.run/public/28"
         };
+    });
+
+    const [darkMode, setDarkMode] = useState(() => {
+        const saved = localStorage.getItem("darkMode");
+        return saved === "true";
     });
 
     useEffect(() => {
         localStorage.setItem("userProfile", JSON.stringify(userProfile));
     }, [userProfile]);
 
+    useEffect(() => {
+        localStorage.setItem("darkMode", darkMode.toString());
+        if (darkMode) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, [darkMode]);
+
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
         { 
             id: 'inventory', 
-            label: 'Inventaris', 
+            label: 'Inventory', 
             icon: Package, 
             submenu: [
-                { label: 'Daftar Obat', path: '/medicines' },
-                { label: 'Grup Obat', path: '/medicine-groups' }
+                { label: 'List of Medicines', path: '/medicines' },
+                { label: 'Medicine Groups', path: '/medicine-groups' }
             ] 
         },
         { 
             id: 'reports', 
-            label: 'Laporan', 
+            label: 'Reports', 
             icon: FileText, 
             submenu: [
-                { label: 'Laporan Penjualan', path: '/reports/sales' },
-                { label: 'Laporan Apotek', path: '/reports/pharmacy' }
+                { label: 'Sales Report', path: '/reports/sales' },
+                { label: 'Payment Report', path: '/reports/payment' }
             ] 
         },
-        { id: 'config', label: 'Konfigurasi', icon: Settings, path: '/config' },
+        { id: 'config', label: 'Configuration', icon: Settings, path: '/config' },
         { 
             id: 'contact', 
-            label: 'Manajemen Kontak', 
+            label: 'Contact Management', 
             icon: UserCheck, 
             submenu: [
-                { label: 'Pemasok', path: '/suppliers' },
-                { label: 'Pelanggan', path: '/customers' }
+                { label: 'Suppliers', path: '/suppliers' },
+                { label: 'Customers', path: '/customers' }
             ] 
         },
-        { id: 'notifications', label: 'Notifikasi', icon: Bell, path: '/notifications', badge: true },
-        { id: 'chat', label: 'Chat Pengunjung', icon: MessageSquare, path: '/chat' },
-        { id: 'settings', label: 'Pengaturan Aplikasi', icon: Settings, path: '/settings' },
-        { id: 'covid-19', label: 'Covid-19', icon: Activity, path: '/covid-19' },
-        { id: 'fitur-xyz', label: 'Fitur XYZ', icon: Zap, path: '/fitur-xyz' },
+        { id: 'notifications', label: 'Notifications', icon: Bell, path: '/notifications', badge: '01' },
+        { id: 'chat', label: 'Chat with Visitors', icon: MessageSquare, path: '/chat' },
+        { id: 'settings', label: 'Application Settings', icon: Settings, path: '/settings' },
         { id: 'notes', label: 'Catatan', icon: StickyNote, path: '/notes' },
     ];
 
     return (
-        <div id="app-container" className="bg-page-bg min-h-screen flex">
-            {/* Sidebar fixed width 220px according to Figma */}
+        <div id="app-container" className={`min-h-screen flex ${darkMode ? "bg-slate-900" : "bg-page-bg"}`}>
             <Sidebar 
                 menuItems={menuItems} 
                 userName={userProfile.userName}
                 role={userProfile.role}
                 avatar={userProfile.avatar}
                 onUpdateProfile={setUserProfile}
+                darkMode={darkMode}
             />
             
-            <div id="main-content" className="flex-1 flex flex-col ml-[220px]">
-                {/* TopBar height 60px */}
-                <Header userName={userProfile.userName} />
-                
-                {/* Content area with 24px padding */}
+            <div id="main-content" className="flex-1 flex flex-col ml-[240px]">
+                <Header userName={userProfile.userName} darkMode={darkMode} />
                 <main className="p-6 flex-1 overflow-x-hidden">
-                    <Outlet />
+                    <Outlet context={{ darkMode, setDarkMode }} />
                 </main>
             </div>
         </div>
