@@ -90,7 +90,7 @@ export default function Orders() {
         <div id="orders-container" className="space-y-6">
             <PageHeader 
                 title="Transaksi Resep" 
-                subtitle="Daftar semua transaksi dan resep masuk di apotek."
+                subtitle="Daftar semua transaksi dan resep masuk di Apotek."
                 breadcrumb={[
                     { label: "Dashboard", path: "/" },
                     { label: "Transaksi" }

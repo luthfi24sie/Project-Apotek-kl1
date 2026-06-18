@@ -65,7 +65,7 @@ export default function SalesReport() {
           <select 
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
-            className="border border-border-default rounded-lg px-4 py-2 text-sm bg-card-bg dark:bg-slate-800 dark:border-slate-700 dark:text-white"
+            className="border border-border-default rounded-lg px-4 py-2 text-sm bg-white dark:bg-slate-100 dark:text-gray-900"
           >
             <option value="1month">1 Bulan Terakhir</option>
             <option value="3months">3 Bulan Terakhir</option>
@@ -77,81 +77,81 @@ export default function SalesReport() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <DollarSign className="text-green-600 dark:text-green-400 size-6" />
-            </div>
-            <div className="flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
-              <TrendingUp size={14} />
-              <span>+12.5%</span>
-            </div>
-          </div>
-          <h3 className="text-2xl font-bold text-text-primary dark:text-white">{formatCurrency(totalRevenue)}</h3>
-          <p className="text-text-secondary dark:text-slate-400 text-sm">Total Pendapatan</p>
-        </div>
-
-        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <ShoppingCart className="text-blue-600 dark:text-blue-400 size-6" />
-            </div>
-            <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 text-sm font-medium">
-              <TrendingUp size={14} />
-              <span>+8.2%</span>
-            </div>
-          </div>
-          <h3 className="text-2xl font-bold text-text-primary dark:text-white">{totalOrders}</h3>
-          <p className="text-text-secondary dark:text-slate-400 text-sm">Total Pesanan</p>
-        </div>
-
-        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-              <Users className="text-purple-600 dark:text-purple-400 size-6" />
-            </div>
-            <div className="flex items-center gap-1 text-purple-600 dark:text-purple-400 text-sm font-medium">
-              <TrendingUp size={14} />
-              <span>+5.1%</span>
-            </div>
-          </div>
-          <h3 className="text-2xl font-bold text-text-primary dark:text-white">{totalCustomers}</h3>
-          <p className="text-text-secondary dark:text-slate-400 text-sm">Total Pelanggan</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart */}
-        <div className="lg:col-span-2 space-y-6">
-          <LineChart data={salesDataMonthly} />
-          <BarChart data={ordersData} />
-        </div>
-
-        {/* Recent Transactions */}
-        <div className="bg-card-bg dark:bg-slate-800 rounded-xl shadow-sm border border-border-default dark:border-slate-700 p-6">
-          <h3 className="text-lg font-bold text-text-primary dark:text-white mb-4">Transaksi Terbaru</h3>
-          <div className="space-y-4">
-            {recentTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between pb-4 border-b border-border-default dark:border-slate-700 last:border-0">
-                <div>
-                  <p className="text-sm font-semibold text-text-primary dark:text-white">{transaction.customer}</p>
-                  <p className="text-xs text-text-secondary dark:text-slate-400">{transaction.medicine}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white dark:bg-slate-100 rounded-xl shadow-sm border border-border-default p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-green-100 rounded-lg">
+                            <DollarSign className="text-green-600 size-6" />
+                        </div>
+                        <div className="flex items-center gap-1 text-green-600 text-sm font-medium">
+                            <TrendingUp size={14} />
+                            <span>+12.5%</span>
+                        </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">{formatCurrency(totalRevenue)}</h3>
+                    <p className="text-gray-600 text-sm">Total Pendapatan</p>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-bold text-text-primary dark:text-white">{formatCurrency(transaction.amount)}</p>
-                  <Badge variant={
-                    transaction.status === 'Sukses' ? 'success' : 
-                    transaction.status === 'Menunggu' ? 'info' : 'error'
-                  }>
-                    {transaction.status}
-                  </Badge>
+
+                <div className="bg-white dark:bg-slate-100 rounded-xl shadow-sm border border-border-default p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-blue-100 rounded-lg">
+                            <ShoppingCart className="text-blue-600 size-6" />
+                        </div>
+                        <div className="flex items-center gap-1 text-blue-600 text-sm font-medium">
+                            <TrendingUp size={14} />
+                            <span>+8.2%</span>
+                        </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">{totalOrders}</h3>
+                    <p className="text-gray-600 text-sm">Total Pesanan</p>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
+                <div className="bg-white dark:bg-slate-100 rounded-xl shadow-sm border border-border-default p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="p-3 bg-purple-100 rounded-lg">
+                            <Users className="text-purple-600 size-6" />
+                        </div>
+                        <div className="flex items-center gap-1 text-purple-600 text-sm font-medium">
+                            <TrendingUp size={14} />
+                            <span>+5.1%</span>
+                        </div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">{totalCustomers}</h3>
+                    <p className="text-gray-600 text-sm">Total Pelanggan</p>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Chart */}
+                <div className="lg:col-span-2 space-y-6">
+                    <LineChart data={salesDataMonthly} />
+                    <BarChart data={ordersData} />
+                </div>
+
+                {/* Recent Transactions */}
+                <div className="bg-white dark:bg-slate-100 rounded-xl shadow-sm border border-border-default p-6">
+                    <h3 className="text-lg font-bold text-gray-900 mb-4">Transaksi Terbaru</h3>
+                    <div className="space-y-4">
+                        {recentTransactions.map((transaction) => (
+                            <div key={transaction.id} className="flex items-center justify-between pb-4 border-b border-border-default last:border-0">
+                                <div>
+                                    <p className="text-sm font-semibold text-gray-900">{transaction.customer}</p>
+                                    <p className="text-xs text-gray-600">{transaction.medicine}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm font-bold text-gray-900">{formatCurrency(transaction.amount)}</p>
+                                    <Badge variant={
+                                        transaction.status === 'Sukses' ? 'success' : 
+                                        transaction.status === 'Menunggu' ? 'info' : 'error'
+                                    }>
+                                        {transaction.status}
+                                    </Badge>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
     </div>
   );
 }

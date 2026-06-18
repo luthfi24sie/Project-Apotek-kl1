@@ -70,7 +70,7 @@ export default function Dashboard() {
         <div id="dashboard-container" className="space-y-6"> 
             <PageHeader 
                 title="Ringkasan Apotek" 
-                subtitle="Pantau performa apotek Apotek Sehat hari ini."
+                subtitle="Pantau performa Apotek Sehat hari ini."
             >
                 <Button icon={Plus}>Input Resep Baru</Button>
             </PageHeader>

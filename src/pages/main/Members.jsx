@@ -143,26 +143,26 @@ export default function Members() {
 
             {/* Stats Cards for Members */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-card-bg dark:bg-slate-800 p-4 rounded-[8px] border border-border-default dark:border-slate-700 shadow-sm">
-                    <p className="text-[11px] font-bold text-text-secondary dark:text-slate-400 uppercase tracking-wider">Total Member</p>
-                    <h3 className="text-2xl font-bold text-text-primary dark:text-white mt-1">{members.length}</h3>
+                <div className="bg-white dark:bg-slate-100 p-4 rounded-[8px] border border-border-default shadow-sm">
+                    <p className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">Total Member</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mt-1">{members.length}</h3>
                 </div>
-                <div className="bg-card-bg dark:bg-slate-800 p-4 rounded-[8px] border border-border-default dark:border-slate-700 shadow-sm">
-                    <p className="text-[11px] font-bold text-success uppercase tracking-wider">Member Aktif</p>
-                    <h3 className="text-2xl font-bold text-text-primary dark:text-white mt-1">{members.filter(m => m.status === 'Aktif').length}</h3>
+                <div className="bg-white dark:bg-slate-100 p-4 rounded-[8px] border border-border-default shadow-sm">
+                    <p className="text-[11px] font-bold text-green-600 uppercase tracking-wider">Member Aktif</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mt-1">{members.filter(m => m.status === 'Aktif').length}</h3>
                 </div>
-                <div className="bg-card-bg dark:bg-slate-800 p-4 rounded-[8px] border border-border-default dark:border-slate-700 shadow-sm">
-                    <p className="text-[11px] font-bold text-warning uppercase tracking-wider">Gold Member</p>
-                    <h3 className="text-2xl font-bold text-text-primary dark:text-white mt-1">{members.filter(m => m.membershipLevel === 'Gold').length}</h3>
+                <div className="bg-white dark:bg-slate-100 p-4 rounded-[8px] border border-border-default shadow-sm">
+                    <p className="text-[11px] font-bold text-yellow-600 uppercase tracking-wider">Gold Member</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mt-1">{members.filter(m => m.membershipLevel === 'Gold').length}</h3>
                 </div>
-                <div className="bg-card-bg dark:bg-slate-800 p-4 rounded-[8px] border border-border-default dark:border-slate-700 shadow-sm">
-                    <p className="text-[11px] font-bold text-primary uppercase tracking-wider">Total Poin</p>
-                    <h3 className="text-2xl font-bold text-text-primary dark:text-white mt-1">{members.reduce((sum, m) => sum + m.points, 0).toLocaleString()}</h3>
+                <div className="bg-white dark:bg-slate-100 p-4 rounded-[8px] border border-border-default shadow-sm">
+                    <p className="text-[11px] font-bold text-red-600 uppercase tracking-wider">Total Poin</p>
+                    <h3 className="text-2xl font-bold text-gray-900 mt-1">{members.reduce((sum, m) => sum + m.points, 0).toLocaleString()}</h3>
                 </div>
             </div>
 
-            <div className="bg-card-bg dark:bg-slate-800 rounded-[8px] border border-border-default dark:border-slate-700 shadow-sm overflow-hidden">
-                <div className="p-6 border-b border-border-default dark:border-slate-700 flex flex-col md:flex-row gap-4 items-end">
+            <div className="bg-white dark:bg-slate-100 rounded-[8px] border border-border-default shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-border-default flex flex-col md:flex-row gap-4 items-end">
                     <div className="flex-1 w-full">
                         <label className="text-[12px] font-bold text-text-secondary dark:text-slate-400 mb-1 block">Cari Member</label>
                         <SearchInput 
