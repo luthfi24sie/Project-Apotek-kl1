@@ -12,7 +12,11 @@ import {
   Activity, 
   UserCheck,
   Zap,
-  StickyNote
+  StickyNote,
+  ShoppingCart,
+  Users,
+  Layers,
+  Biohazard
 } from "lucide-react";
 
 export default function MainLayout() {
@@ -20,7 +24,7 @@ export default function MainLayout() {
         const saved = localStorage.getItem("userProfile");
         return saved ? JSON.parse(saved) : {
             userName: "User",
-            role: "Admin",
+            role: "Super Admin",
             avatar: "https://avatar.iran.liara.run/public/28"
         };
     });
@@ -45,38 +49,43 @@ export default function MainLayout() {
 
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
+        { id: 'orders', label: 'Pesanan', icon: ShoppingCart, path: '/orders' },
         { 
             id: 'inventory', 
             label: 'Inventory', 
             icon: Package, 
             submenu: [
-                { label: 'List of Medicines', path: '/medicines' },
-                { label: 'Medicine Groups', path: '/medicine-groups' }
+                { label: 'Daftar Obat', path: '/medicines' },
+                { label: 'Grup Obat', path: '/medicine-groups' },
+                { label: 'Produk', path: '/products' }
+            ] 
+        },
+        { 
+            id: 'contact', 
+            label: 'Manajemen Kontak', 
+            icon: Users, 
+            submenu: [
+                { label: 'Pemasok', path: '/suppliers' },
+                { label: 'Pelanggan', path: '/customers' }
             ] 
         },
         { 
             id: 'reports', 
-            label: 'Reports', 
+            label: 'Laporan', 
             icon: FileText, 
             submenu: [
-                { label: 'Sales Report', path: '/reports/sales' },
-                { label: 'Payment Report', path: '/reports/payment' }
+                { label: 'Laporan Penjualan', path: '/reports/sales' },
+                { label: 'Laporan Apotek', path: '/reports/pharmacy' }
             ] 
         },
-        { id: 'config', label: 'Configuration', icon: Settings, path: '/config' },
-        { 
-            id: 'contact', 
-            label: 'Contact Management', 
-            icon: UserCheck, 
-            submenu: [
-                { label: 'Suppliers', path: '/suppliers' },
-                { label: 'Customers', path: '/customers' }
-            ] 
-        },
-        { id: 'notifications', label: 'Notifications', icon: Bell, path: '/notifications', badge: '01' },
-        { id: 'chat', label: 'Chat with Visitors', icon: MessageSquare, path: '/chat' },
-        { id: 'settings', label: 'Application Settings', icon: Settings, path: '/settings' },
+        { id: 'covid', label: 'COVID-19', icon: Biohazard, path: '/covid-19' },
+        { id: 'components', label: 'Komponen', icon: Layers, path: '/components' },
+        { id: 'fitur-xyz', label: 'Fitur XYZ', icon: Zap, path: '/fitur-xyz' },
         { id: 'notes', label: 'Catatan', icon: StickyNote, path: '/notes' },
+        { id: 'notifications', label: 'Notifikasi', icon: Bell, path: '/notifications', badge: '01' },
+        { id: 'chat', label: 'Obrolan', icon: MessageSquare, path: '/chat' },
+        { id: 'config', label: 'Konfigurasi', icon: Settings, path: '/config' },
+        { id: 'settings', label: 'Pengaturan Aplikasi', icon: Settings, path: '/settings' },
     ];
 
     return (

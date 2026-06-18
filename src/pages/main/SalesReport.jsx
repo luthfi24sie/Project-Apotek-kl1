@@ -32,21 +32,107 @@ const formatCurrency = (num) => {
 
 // Simple bar chart component
 const SimpleBarChart = () => (
-  <div className="h-64 flex items-end justify-between gap-4 px-2">
-    {salesData.map((item, index) => (
-      <div key={index} className="flex-1 flex flex-col items-center">
-        <div 
-          className="w-full bg-primary rounded-t-lg transition-all duration-300 hover:bg-primary-dark"
-          style={{ height: `${(item.revenue / 25000000) * 100}%` }}
-        ></div>
-        <span className="text-xs text-text-secondary mt-2">{item.month}</span>
-      </div>
-    ))}
+  <div className="h-64 flex items-end justify-between gap-3 px-2">
+    {salesData.map((item, index) => {
+      const heightPercent = (item.revenue / 25000000) * 100;
+      return (
+        <div key={index} className="flex-1 flex flex-col items-center group">
+          <div className="mb-1 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-bold text-primary bg-white border border-primary px-2 py-1 rounded shadow">
+            {formatCurrency(item.revenue)}
+          </div>
+          <div 
+            className="w-full bg-gradient-to-t from-primary to-red-400 rounded-t-lg transition-all duration-300 hover:from-red-500 hover:to-red-300 hover:scale-105"
+            style={{ height: `${heightPercent}%` }}
+          ></div>
+          <span className="text-xs text-text-secondary mt-2 font-medium">{item.month.slice(0, 3)}</span>
+        </div>
+      );
+    })}
   </div>
 );
 
+// Simple line chart component
+const SimpleLineChart = () => {
+  const maxValue = 25000000;
+  
+  // Generate path for line
+  const points = salesData.map((item, index) => {
+    const x = (index / (salesData.length - 1)) * 100;
+    const y = 100 - ((item.revenue / maxValue) * 100);
+    return `${x},${y}`;
+  }).join(' ');
+
+  return (
+    <div className="h-64 relative">
+      <svg viewBox="0 0 100 100" className="w-full h-full">
+        {/* Grid lines */}
+        {[0, 25, 50, 75, 100].map((y) => (
+          <line 
+            key={y} 
+            x1="0" 
+            y1={y} 
+            x2="100" 
+            y2={y} 
+            stroke="#E2E8F0" 
+            strokeWidth="0.5"
+          />
+        ))}
+        
+        {/* Area fill */}
+        <path 
+          d={`M 0,100 ${points} L 100,100 Z`}
+          fill="url(#gradient)"
+          opacity="0.3"
+        />
+        
+        {/* Line */}
+        <polyline 
+          points={points}
+          fill="none"
+          stroke="#EF4444"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        
+        {/* Dots */}
+        {salesData.map((item, index) => {
+          const x = (index / (salesData.length - 1)) * 100;
+          const y = 100 - ((item.revenue / maxValue) * 100);
+          return (
+            <circle 
+              key={index}
+              cx={x}
+              cy={y}
+              r="2"
+              fill="#EF4444"
+              stroke="#fff"
+              strokeWidth="1"
+            />
+          );
+        })}
+        
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#EF4444" />
+            <stop offset="100%" stopColor="#FCA5A5" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      {/* Month labels */}
+      <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 text-xs text-text-secondary">
+        {salesData.map((item, i) => (
+          <span key={i}>{item.month.slice(0,3)}</span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function SalesReport() {
   const [period, setPeriod] = useState('6months');
+  const [chartType, setChartType] = useState('bar');
 
   const totalRevenue = salesData.reduce((sum, item) => sum + item.revenue, 0);
   const totalOrders = salesData.reduce((sum, item) => sum + item.orders, 0);
@@ -129,8 +215,22 @@ export default function SalesReport() {
         <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-border-default p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-bold text-text-primary">Grafik Pendapatan</h3>
+            <div className="flex gap-2 bg-slate-100 p-1 rounded-lg">
+              <button 
+                onClick={() => setChartType('bar')}
+                className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${chartType === 'bar' ? 'bg-white shadow text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+              >
+                Batang
+              </button>
+              <button 
+                onClick={() => setChartType('line')}
+                className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${chartType === 'line' ? 'bg-white shadow text-primary' : 'text-text-secondary hover:text-text-primary'}`}
+              >
+                Garis
+              </button>
+            </div>
           </div>
-          <SimpleBarChart />
+          {chartType === 'bar' ? <SimpleBarChart /> : <SimpleLineChart />}
         </div>
 
         {/* Recent Transactions */}

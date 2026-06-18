@@ -18,7 +18,7 @@ import { supabase } from "../lib/supabaseClient";
 /**
  * Sidebar Component - Apotek Sehat Design System
  * Sidebar width: 220px
- * Background: #3d422aff (lebih terang)
+ * Background: #c4cd22ff (lebih terang)
  */
 export default function Sidebar({ 
     menuItems = [], 
@@ -92,7 +92,7 @@ export default function Sidebar({
     return (
         <div id="sidebar" className={`w-[220px] min-h-screen flex flex-col fixed left-0 top-0 z-40 shadow-xl font-inter ${darkMode ? "bg-slate-900" : "bg-sidebar-bg"}`}>
             {/* Logo Apotek Sehat dengan background kuning seperti Figma */}
-            <div className={`h-[60px] flex items-center px-5 border-b ${darkMode ? "border-slate-800" : "border-white/5"} ${darkMode ? "bg-slate-800" : "bg-sidebar-bg-light"}`}>
+            <div className={`h-[60px] flex items-center px-5 border-b flex-shrink-0 ${darkMode ? "border-slate-800" : "border-white/5"} ${darkMode ? "bg-slate-800" : "bg-sidebar-bg-light"}`}>
                 <div className="flex items-center gap-2">
                     <div className="bg-yellow-400 p-1.5 rounded-lg">
                         <ShoppingCart className="text-slate-900 size-5" />
@@ -102,7 +102,7 @@ export default function Sidebar({
             </div>
 
             {/* User Profile Section dengan Dropdown dan Warna Emas Super Admin */}
-            <div className="px-4 py-6 relative">
+            <div className="px-4 py-6 relative flex-shrink-0">
                 <div className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all ${darkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white/5 hover:bg-white/10"}`} onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                     <div className="flex items-center gap-3 min-w-0">
                         <div className="relative">
@@ -111,7 +111,7 @@ export default function Sidebar({
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-[13px] font-medium text-white truncate leading-none mb-1">{userName}</p>
-                            <p className="text-[11px] font-semibold text-gold truncate leading-none">{role}</p>
+                            <p className="text-[11px] font-bold text-[var(--color-gold-bright)] truncate leading-none drop-shadow-[0_0_4px_rgba(255,215,0,0.4)]">{role}</p>
                         </div>
                     </div>
                     <button className="text-sidebar-text hover:text-white p-1 rounded-md hover:bg-white/5 transition-all">
@@ -141,7 +141,7 @@ export default function Sidebar({
             </div>
 
             {/* Navigation List (SEMUA MENU TETAP SAMA PERSIS!) */}
-            <div className="flex-grow px-3 space-y-0.5 overflow-y-auto custom-scrollbar pb-6">
+            <div className="flex-grow px-3 space-y-0.5 overflow-y-auto pb-6 scroll-smooth" style={{ scrollbarWidth: 'thin', scrollbarColor: '#FFC107 transparent' }}>
                 {menuItems.map((item) => {
                     const hasSubmenu = item.submenu && item.submenu.length > 0;
                     const isMenuOpen = openMenus[item.id];

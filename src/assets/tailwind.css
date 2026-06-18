@@ -34,6 +34,8 @@
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
+  --color-gold-bright: #FFD700;
+  --color-gold: #FFC107;
 
   /* Legacy variable mapping to prevent immediate breakage */
   --color-latar: var(--color-page-bg);
@@ -66,13 +68,18 @@
 }
 
 /* Custom Scrollbar for Sidebar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
+.overflow-y-auto::-webkit-scrollbar-track {
   background: transparent;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #333C4D;
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
   border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-bright);
+  width: 8px;
 }
