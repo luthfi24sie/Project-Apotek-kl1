@@ -88,7 +88,7 @@ export default function MainLayout() {
         },
         { id: 'covid', label: 'COVID-19', icon: Biohazard, path: '/covid-19' },
         { id: 'components', label: 'Komponen', icon: Layers, path: '/components' },
-        { id: 'fitur', label: 'Fitur', icon: Zap, path: '/fitur' },
+        { id: 'fitur-xyz', label: 'Fitur XYZ', icon: Zap, path: '/fitur-xyz' },
         { id: 'notes', label: 'Catatan', icon: StickyNote, path: '/notes' },
         { id: 'notifications', label: 'Notifikasi', icon: Bell, path: '/notifications', badge: '01' },
         { id: 'chat', label: 'Obrolan', icon: MessageSquare, path: '/chat' },
