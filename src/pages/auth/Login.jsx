@@ -32,6 +32,34 @@ export default function Login() {
       return;
     }
 
+    // Bypass login for demo purposes (admin)
+    if (dataForm.email === "admin@apoteksehat.com" && dataForm.password === "admin123") {
+      const userProfile = {
+        userName: "Admin Apotek",
+        role: "Super Admin",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Admin",
+      };
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      navigate("/dashboard");
+      setLoading(false);
+      return;
+    }
+
+    // Bypass login for demo purposes (member)
+    if (dataForm.email === "member@apoteksehat.com" && dataForm.password === "member123") {
+      const userProfile = {
+        userName: "Member Sehat",
+        role: "Member",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Member",
+      };
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userProfile", JSON.stringify(userProfile));
+      navigate("/member/dashboard");
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data: { user }, error: authError } = await supabase.auth.signInWithPassword({
         email: dataForm.email,
@@ -153,11 +181,22 @@ export default function Login() {
         </p>
       </div>
 
-      <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-        <p className="text-xs text-yellow-700 font-medium mb-1">Admin Demo:</p>
-        <p className="text-xs text-yellow-600 font-mono">
-          Email: admin@apoteksehat.com | Pass: admin123
+      <div className="mt-6 bg-slate-50 border border-slate-200 rounded-xl p-4">
+        <p className="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+          📋 Akun Demo
         </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="bg-white p-3 rounded-lg border border-slate-200">
+            <p className="text-xs text-slate-500 mb-1">Super Admin</p>
+            <p className="text-xs text-slate-900 font-mono">admin@apoteksehat.com</p>
+            <p className="text-xs text-slate-900 font-mono">admin123</p>
+          </div>
+          <div className="bg-white p-3 rounded-lg border border-slate-200">
+            <p className="text-xs text-slate-500 mb-1">Member</p>
+            <p className="text-xs text-slate-900 font-mono">member@apoteksehat.com</p>
+            <p className="text-xs text-slate-900 font-mono">member123</p>
+          </div>
+        </div>
       </div>
     </div>
   );

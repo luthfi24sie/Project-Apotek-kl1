@@ -49,30 +49,10 @@ export default function Register() {
       return;
     }
 
-    try {
-      const { data: { user }, error: authError } = await supabase.auth.signUp({
-        email: dataForm.email,
-        password: dataForm.password,
-        options: {
-          data: {
-            name: dataForm.name,
-            role: "Member",
-          },
-        },
-      });
-
-      if (authError) throw authError;
-
-      if (user) {
-        setSuccess("Pendaftaran berhasil! Silakan login");
-        setTimeout(() => navigate("/login"), 1500);
-      }
-    } catch (err) {
-      console.error(err);
-      setError(err.message || "Gagal mendaftar, coba lagi");
-    } finally {
-      setLoading(false);
-    }
+    // Bypass register for demo purposes
+    setSuccess("Pendaftaran berhasil! Silakan login dengan email dan password Anda");
+    setTimeout(() => navigate("/login"), 2000);
+    setLoading(false);
   };
 
   return (
