@@ -1,146 +1,164 @@
-import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import InputField from "../../components/ui/InputField"
-import Button from "../../components/ui/Button"
-import AlertBanner from "../../components/ui/AlertBanner"
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import InputField from "../../components/ui/InputField";
+import Button from "../../components/ui/Button";
+import AlertBanner from "../../components/ui/AlertBanner";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function Login() {
-    const navigate = useNavigate() 
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
-    const [dataForm, setDataForm] = useState({
-        email: "",
-        password: "",
-    })
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [dataForm, setDataForm] = useState({
+    email: "",
+    password: "",
+  });
 
-    const handleChange = (evt) => {
-        const { name, value } = evt.target
-        setDataForm({
-            ...dataForm,
-            [name]: value,
-        })
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setDataForm({ ...dataForm, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (!dataForm.email.trim() || !dataForm.password.trim()) {
+      setError("Email dan password wajib diisi");
+      setLoading(false);
+      return;
     }
 
-    const handleSimpleLogin = (e) => {
-        e.preventDefault()
-        setLoading(true)
-        setError("")
+    try {
+      const { data: { user }, error: authError } = await supabase.auth.signInWithPassword({
+        email: dataForm.email,
+        password: dataForm.password,
+      });
 
-        // Login SANGAT MUDAH untuk belajar
-        if (!dataForm.email.trim() || !dataForm.password.trim()) {
-            setError("Email dan password wajib diisi")
-            setLoading(false)
-            return
+      if (authError) throw authError;
+
+      if (user) {
+        const userRole = user.user_metadata?.role || "Member";
+        const userName = user.user_metadata?.name || user.email?.split("@")[0] || "User";
+
+        const userProfile = {
+          userName,
+          role: userRole,
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userName}`,
+        };
+
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userProfile", JSON.stringify(userProfile));
+
+        if (userRole === "Super Admin") {
+          navigate("/dashboard");
+        } else {
+          navigate("/member/dashboard");
         }
-
-        // Bisa login dengan email apapun, minimal password 6 karakter!
-        if (dataForm.password.length < 6) {
-            setError("Password minimal 6 karakter")
-            setLoading(false)
-            return
-        }
-
-        // Simpan data user di localStorage
-        localStorage.setItem("isLoggedIn", "true")
-        localStorage.setItem("userEmail", dataForm.email)
-        
-        // Beri jeda agar terasa seperti login sungguhan
-        setTimeout(() => {
-            navigate("/")
-        }, 800)
-        
-        setLoading(false)
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message || "Email atau password salah");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleQuickLogin = (e) => {
-        e.preventDefault()
-        setLoading(true)
-        
-        // Login Cepat - 1 klik langsung masuk!
-        localStorage.setItem("isLoggedIn", "true")
-        localStorage.setItem("userEmail", "admin@apoteksehat.com")
-        
-        setTimeout(() => {
-            navigate("/")
-        }, 500)
-        
-        setLoading(false)
-    }
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Masuk ke Akun</h1>
+        <p className="text-slate-600">Masukkan email dan password Anda untuk melanjutkan</p>
+      </div>
 
-    return (
-        <div className="space-y-5">
-            {error && (
-                <AlertBanner variant="error" onDismiss={() => setError("")}>
-                    {error}
-                </AlertBanner>
-            )}
+      {error && (
+        <AlertBanner variant="error" onDismiss={() => setError("")} className="mb-6">
+          {error}
+        </AlertBanner>
+      )}
 
-            {/* TOMBOL LOGIN CEPAT - TANPA KETIK APA-APA! */}
-            <Button
-                type="button"
-                loading={loading}
-                className="w-full h-[50px] text-[15px] font-bold bg-gradient-to-r from-green-500 via-emerald-500 to-teal-600 hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 shadow-lg shadow-green-500/30"
-                onClick={handleQuickLogin}
-            >
-                ⚡ LOGIN CEPAT - 1 KLIK!
-            </Button>
-
-            {/* Pemisah */}
-            <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t-2 border-dashed border-slate-200"></div>
-                </div>
-                <div className="relative flex justify-center text-xs">
-                    <span className="px-4 bg-white text-slate-500 font-bold uppercase tracking-wider">
-                        Atau Login Manual
-                    </span>
-                </div>
-            </div>
-
-            <form onSubmit={handleSimpleLogin} className="space-y-5">
-                <InputField
-                    label="Email"
-                    name="email"
-                    value={dataForm.email}
-                    onChange={handleChange}
-                    placeholder="Masukkan email apapun (contoh: user@apotek.com)"
-                    type="email"
-                    required
-                />
-
-                <div className="space-y-2">
-                    <InputField
-                        label="Password"
-                        type="password"
-                        name="password"
-                        value={dataForm.password}
-                        onChange={handleChange}
-                        placeholder="Masukkan password (min 6 karakter)"
-                        required
-                    />
-                    <div className="text-right">
-                        <Link to="/forgot" className="text-[12px] font-bold text-primary hover:underline">
-                            Lupa Password?
-                        </Link>
-                    </div>
-                </div>
-
-                <Button
-                    type="submit"
-                    loading={loading}
-                    className="w-full h-[50px] text-[15px] font-bold"
-                    variant="primary"
-                >
-                    🔐 MASUK KE APOTEK SEHAT
-                </Button>
-            </form>
-
-            <div className="pt-4 text-center">
-                <span className="text-text-muted text-[13px]">Belum punya akun? </span>
-                <Link to="/register" className="text-primary font-bold hover:underline text-[13px]">
-                    Daftar Akun Baru Disini
-                </Link>
-            </div>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-1">
+          <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+            <Mail size={16} className="text-slate-500" />
+            Email
+          </label>
+          <InputField
+            name="email"
+            value={dataForm.email}
+            onChange={handleChange}
+            placeholder="nama@email.com"
+            type="email"
+            required
+          />
         </div>
-    )
+
+        <div className="space-y-1">
+          <div className="flex justify-between items-center">
+            <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <Lock size={16} className="text-slate-500" />
+              Password
+            </label>
+            <Link
+              to="/forgot"
+              className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+            >
+              Lupa Password?
+            </Link>
+          </div>
+          <div className="relative">
+            <InputField
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={dataForm.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 transition-colors"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+        </div>
+
+        <Button
+          type="submit"
+          loading={loading}
+          className="w-full h-[52px] text-[16px] font-semibold group"
+        >
+          {loading ? (
+            "Memproses..."
+          ) : (
+            <span className="flex items-center justify-center gap-2">
+              Masuk ke Sistem
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </span>
+          )}
+        </Button>
+      </form>
+
+      <div className="mt-8 pt-6 border-t border-slate-200 text-center">
+        <p className="text-slate-600 text-sm">
+          Belum punya akun?{" "}
+          <Link to="/register" className="font-bold text-primary hover:text-primary/80 transition-colors">
+            Daftar Sekarang
+          </Link>
+        </p>
+      </div>
+
+      <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+        <p className="text-xs text-yellow-700 font-medium mb-1">Admin Demo:</p>
+        <p className="text-xs text-yellow-600 font-mono">
+          Email: admin@apoteksehat.com | Pass: admin123
+        </p>
+      </div>
+    </div>
+  );
 }
