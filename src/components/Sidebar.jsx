@@ -121,7 +121,7 @@ export default function Sidebar({
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-[13px] font-medium text-white truncate leading-none mb-1">{userName}</p>
-                            <p className="text-[11px] font-bold text-[var(--color-gold-bright)] truncate leading-none drop-shadow-[0_0_4px_rgba(255,215,0,0.4)]">{role}</p>
+                            <p className="text-[11px] font-bold truncate leading-none" style={{ color: '#FED600', textShadow: '0 0 4px rgba(254, 214, 0, 0.4)' }}>{role}</p>
                         </div>
                     </div>
                     <button className="text-sidebar-text hover:text-white p-1 rounded-md hover:bg-white/5 transition-all">
